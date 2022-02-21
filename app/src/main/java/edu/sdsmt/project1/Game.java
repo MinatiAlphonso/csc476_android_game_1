@@ -26,7 +26,7 @@ public class Game {
     public void setRounds() {
 
     }
-    //
+    // Updates which player's turn it is and round remaining
     public void roundFinished() {
 
     }
