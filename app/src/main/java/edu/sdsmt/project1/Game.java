@@ -35,9 +35,8 @@ public class Game {
         return 0;
     }
     // Returns whether a collectible was captured by rectangle
-    public boolean rectangleCaptured() {
-        // Probability of capture based on scale of rectangle?
-        // If so, might take in float for current scale
+    public boolean rectangleCaptured(float scale) {
+        // rectangle probability varies based on the scale
         return false;
     }
 
