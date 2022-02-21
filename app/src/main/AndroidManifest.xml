@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Project1">
         <activity
+            android:name=".CaptureActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GameplayActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EndActivity"
+            android:exported="false" />
+        <activity
             android:name=".StartActivity"
             android:exported="true">
             <intent-filter>
