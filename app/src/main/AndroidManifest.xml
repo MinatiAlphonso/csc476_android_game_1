@@ -13,7 +13,7 @@
             android:name=".CaptureActivity"
             android:exported="false" />
         <activity
-            android:name=".GameplayActivity"
+            android:name=".GameActivity"
             android:exported="false" />
         <activity
             android:name=".EndActivity"
