@@ -22,31 +22,33 @@
         android:id="@+id/Player1TextInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:autofillHints=""
         android:ems="10"
         android:hint="@string/player_1"
         android:inputType="textPersonName"
         android:minHeight="48dp"
+        android:textColorHint="#757575"
         app:layout_constraintBottom_toBottomOf="@+id/Player2TextInput"
         app:layout_constraintEnd_toStartOf="@+id/Player2TextInput"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/Player2TextInput"
-        android:autofillHints="" />
+        app:layout_constraintTop_toTopOf="@+id/Player2TextInput" />
 
     <EditText
         android:id="@+id/Player2TextInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:autofillHints=""
         android:ems="10"
         android:hint="@string/player_2"
         android:inputType="textPersonName"
         android:minHeight="48dp"
+        android:textColorHint="#757575"
         app:layout_constraintBottom_toTopOf="@+id/PlayButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/Player1TextInput"
-        app:layout_constraintTop_toBottomOf="@+id/RoundsInput"
-        android:autofillHints="" />
+        app:layout_constraintTop_toBottomOf="@+id/RoundsInput" />
 
     <EditText
         android:id="@+id/RoundsInput"
