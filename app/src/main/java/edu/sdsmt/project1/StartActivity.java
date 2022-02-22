@@ -13,10 +13,6 @@ public class StartActivity extends AppCompatActivity {
     private EditText Player1Input;
     private EditText Player2Input;
     private EditText RoundInput;
-    // Strings to access the data in the intent
-    public static final String PLAYER1_NAME = "edu.sdsmt.projet1player1name";
-    public static final String PLAYER2_NAME = "edu.sdsmt.projet1player1name";
-    public static final String ROUND_COUNT = "edu.sdsmt.projet1roundcount";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +46,9 @@ public class StartActivity extends AppCompatActivity {
         else {
             // If all the data is entered put it in the intent
             Intent intent = new Intent(this, GameActivity.class);
-            intent.putExtra(PLAYER1_NAME, p1Name);
-            intent.putExtra(PLAYER2_NAME, p2Name);
-            intent.putExtra(ROUND_COUNT, Integer.parseInt(rounds));
+            intent.putExtra(GameActivity.PLAYER1_NAME, p1Name);
+            intent.putExtra(GameActivity.PLAYER2_NAME, p2Name);
+            intent.putExtra(GameActivity.ROUND_COUNT, Integer.parseInt(rounds));
             // launch the GameActivity
             startActivity(intent);
         }

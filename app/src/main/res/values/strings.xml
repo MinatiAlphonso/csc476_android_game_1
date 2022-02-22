@@ -3,8 +3,8 @@
     <string name="grid_laser_button_text">Grid Laser</string>
     <string name="radial_laser_button_text">Radial Laser</string>
     <string name="linear_laser_button_text">Linear Laser</string>
-    <string name="player1_text">Player 1</string>
-    <string name="player2_text">Player 2</string>
+    <string name="player1_text">Player 1: </string>
+    <string name="player2_text">Player 2: </string>
     <string name="round_text">"Round: "</string>
     <string name="turn_text">"Turn: "</string>
     <string-array name="capture_spinner">
