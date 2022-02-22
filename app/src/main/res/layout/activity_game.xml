@@ -6,6 +6,54 @@
     android:layout_height="match_parent"
     tools:context=".GameActivity">
 
+    <TextView
+        android:id="@+id/player1name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/player1_text"
+        app:layout_constraintEnd_toStartOf="@+id/player2name"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/player2name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/player2_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/round"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/round_text"
+        app:layout_constraintEnd_toStartOf="@+id/turn"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/player1name" />
+
+    <TextView
+        android:id="@+id/turn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/turn_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/round"
+        app:layout_constraintTop_toBottomOf="@+id/player2name" />
+
+    <Spinner
+        android:id="@+id/spinnerCapture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/round"
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
     <edu.sdsmt.project1.GameView
         android:id="@+id/gameView"
         android:layout_width="0dp"
@@ -13,5 +61,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerCapture" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
