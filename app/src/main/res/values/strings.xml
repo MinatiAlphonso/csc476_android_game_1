@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Project1</string>
+    <string name="number_of_rounds_to_play">Number of rounds to play</string>
+    <string name="play">Play</string>
+    <string name="player_1">Player 1</string>
+    <string name="player_2">Player 2</string>
 </resources>
