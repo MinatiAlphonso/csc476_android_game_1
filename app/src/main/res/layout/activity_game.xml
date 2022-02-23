@@ -7,19 +7,19 @@
     tools:context=".GameActivity">
 
     <TextView
-        android:id="@+id/player1name"
+        android:id="@+id/textViewPlayer1Name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:text="@string/player1_text"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/player2name"
+        app:layout_constraintEnd_toStartOf="@+id/textViewPlayer2Name"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/player2name"
+        android:id="@+id/textViewPlayer2Name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="8dp"
@@ -27,23 +27,23 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/player1name"
+        app:layout_constraintStart_toEndOf="@+id/textViewPlayer1Name"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/roundCount"
+        android:id="@+id/textViewRoundCount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:text="@string/round_text"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/turn"
+        app:layout_constraintEnd_toStartOf="@+id/textViewTurn"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/player1name" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewPlayer1Name" />
 
     <TextView
-        android:id="@+id/turn"
+        android:id="@+id/textViewTurn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="8dp"
@@ -51,18 +51,29 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/roundCount"
-        app:layout_constraintTop_toBottomOf="@+id/player2name" />
+        app:layout_constraintStart_toEndOf="@+id/textViewRoundCount"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPlayer2Name" />
 
     <Button
-        android:id="@+id/buttonCaptureOption"
+        android:id="@+id/buttonSelectCaptureOption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onCaptureOption"
+        android:text="@string/capture_option_btn_text"
+        app:layout_constraintEnd_toStartOf="@+id/buttonCapture"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRoundCount" />
+
+    <Button
+        android:id="@+id/buttonCapture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/capture_btn_text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/roundCount" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/buttonSelectCaptureOption"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTurn" />
 
     <edu.sdsmt.project1.GameView
         android:id="@+id/gameView"
@@ -71,6 +82,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonCaptureOption" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonSelectCaptureOption" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

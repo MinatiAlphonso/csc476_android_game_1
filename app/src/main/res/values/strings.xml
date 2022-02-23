@@ -3,19 +3,14 @@
     <string name="grid_laser_button_text">Grid Laser</string>
     <string name="radial_laser_button_text">Radial Laser</string>
     <string name="linear_laser_button_text">Linear Laser</string>
-    <string name="player1_text">Player 1: </string>
-    <string name="player2_text">Player 2: </string>
+    <string name="player1_text">"Player 1: "</string>
+    <string name="player2_text">"Player 2: "</string>
     <string name="round_text">"Round: "</string>
     <string name="turn_text">"Turn: "</string>
-    <string-array name="capture_spinner">
-        <item >None</item>
-        <item >Guaranteed Collect</item>
-        <item >Rectangle Collect</item>
-        <item >Line Collect</item>
-    </string-array>
     <string name="number_of_rounds_to_play">Number of rounds to play</string>
     <string name="play">Play</string>
     <string name="player_1">Player 1</string>
     <string name="player_2">Player 2</string>
-    <string name="capture_btn_text">Capture Option</string>
+    <string name="capture_option_btn_text">Select Capture Option</string>
+    <string name="capture_btn_text">Capture!</string>
 </resources>
