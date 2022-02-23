@@ -84,6 +84,7 @@ public class Game {
         return player2.getName();
     }
 
+    // capture functions still need to be finished with capture class and collectible class
     // Returns whether a collectible was captured by rectangle
     public boolean rectangleCaptured(float scale) {
         // rectangle probability varies based on the scale
