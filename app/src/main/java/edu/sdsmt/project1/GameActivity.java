@@ -33,8 +33,8 @@ public class GameActivity extends AppCompatActivity {
     ActivityResultLauncher<Intent> captureResultLauncher;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
         setContentView(R.layout.activity_game);
 
         Player1Name = (TextView) findViewById(R.id.textViewPlayer1Name);
@@ -44,6 +44,10 @@ public class GameActivity extends AppCompatActivity {
         SelectCaptureOption = (Button) findViewById(R.id.buttonSelectCaptureOption);
         Capture = (Button) findViewById(R.id.buttonCapture);
         gameView = (GameView) findViewById(R.id.gameView);
+
+        if(bundle != null){
+            gameView.restoreGameState(bundle);
+        }
 
         //Get the message from the intent (StartActivity started up this activity)
         Intent intent = getIntent();
@@ -65,16 +69,17 @@ public class GameActivity extends AppCompatActivity {
                         // set something to value
                     }});
 
-        //enable the buttonCapture only if buttonSelectCaptureOption click is detected
-        /*SelectCaptureOption.setOnClickListener(v -> {
-            // Code here executes on main thread after user presses button
-            Capture.setEnabled(true);
-        });*/
     }
 
     public void onSelectCaptureOption(View view){
         Capture.setEnabled(true);
         Intent intent = new Intent(this, CaptureActivity.class);
         captureResultLauncher.launch(intent);
+    }
+
+    protected void onSaveInstanceState(Bundle bundle){
+        super.onSaveInstanceState(bundle);
+
+        gameView.saveGameState(bundle);
     }
 }

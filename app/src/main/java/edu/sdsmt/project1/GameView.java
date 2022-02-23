@@ -4,12 +4,18 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.os.Bundle;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 
 public class GameView extends View {
+
+    private Game game;
+
+    //game area background
     Bitmap backgroundBitmap = null;
     private float imageScale = 1;
     private float marginLeft = 0;
@@ -32,11 +38,26 @@ public class GameView extends View {
 
     public void init(){
         backgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.space);
+        //game = new Game(getContext());
+        //game.setGameView(this);
     }
 
+    /*
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        return game.onTouchEvent(this, event);
+    }*/
+
+    @Override
     protected void onDraw(Canvas canvas){
         super.onDraw(canvas);
 
+        //should the drawing of the background be done in game.draw() too?
+        drawBackground(canvas);
+        //game.draw(canvas);
+    }
+
+    public void drawBackground(Canvas canvas){
         if(backgroundBitmap == null) {
             return;
         }
@@ -68,4 +89,15 @@ public class GameView extends View {
         canvas.restore();
     }
 
+    public Game getGame(){
+        return game;
+    }
+
+    public void saveGameState(Bundle bundle){
+        game.saveGameState(bundle);
+    }
+
+    public void restoreGameState(Bundle bundle){
+        game.restoreGameState(bundle);
+    }
 }
