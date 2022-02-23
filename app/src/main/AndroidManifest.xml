@@ -3,7 +3,6 @@
     package="edu.sdsmt.project1">
 
     <application
-        android:launchMode="singleInstance"
         android:requestLegacyExternalStorage="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_adaptive_fore"
@@ -12,15 +11,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Project1">
         <activity
+            android:launchMode="singleInstance"
             android:name=".CaptureActivity"
             android:exported="false" />
         <activity
+            android:launchMode="singleInstance"
             android:name=".GameActivity"
             android:exported="false" />
         <activity
+            android:launchMode="singleInstance"
             android:name=".EndActivity"
             android:exported="false" />
         <activity
+            android:launchMode="singleInstance"
             android:name=".StartActivity"
             android:exported="true">
             <intent-filter>
