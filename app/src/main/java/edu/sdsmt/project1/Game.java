@@ -27,7 +27,7 @@ public class Game {
         player2 = new Player();
         random = new Random();
         // should either 1 or 2
-        params.turn = random.nextInt(1) + 1;
+        params.turn = random.nextInt(2) + 1;
     }
 
     public int getGameState() {
@@ -86,17 +86,17 @@ public class Game {
 
     // capture functions still need to be finished with capture class and collectible class
     // Returns whether a collectible was captured by rectangle
-    public boolean rectangleCaptured(float scale) {
+    // update to take capture class
+    public void rectangleCaptured() {
         // rectangle probability varies based on the scale
-        return false;
     }
 
-    public boolean circleCaptured() {
-        return true;
+    public void circleCaptured() {
+
     }
 
-    public boolean lineCaptured() {
-        return false;
+    public void lineCaptured() {
+
     }
 
     // class to serialize parameters
