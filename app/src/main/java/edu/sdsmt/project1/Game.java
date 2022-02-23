@@ -76,12 +76,12 @@ public class Game {
         player2.setName(player2Name);
     }
 
-    public String getPlayer1Name() {
-        return player1.getName();
+    public Player getPlayer1() {
+        return player1;
     }
 
-    public String getPlayer2Name() {
-        return player2.getName();
+    public Player getPlayer2Name() {
+        return player2;
     }
 
     // capture functions still need to be finished with capture class and collectible class
