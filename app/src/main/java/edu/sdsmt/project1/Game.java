@@ -85,17 +85,17 @@ public class Game {
     }
 
     // Returns whether a collectible was captured by rectangle
-    public boolean rectangleCaptured(float scale) {
+    // update to take capture class
+    public void rectangleCaptured() {
         // rectangle probability varies based on the scale
-        return false;
     }
 
-    public boolean circleCaptured() {
-        return true;
+    public void circleCaptured() {
+
     }
 
-    public boolean lineCaptured() {
-        return false;
+    public void lineCaptured() {
+
     }
 
     // class to serialize parameters
