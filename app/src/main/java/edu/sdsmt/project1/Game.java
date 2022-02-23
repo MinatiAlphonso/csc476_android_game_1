@@ -27,7 +27,7 @@ public class Game {
         player2 = new Player();
         random = new Random();
         // should either 1 or 2
-        params.turn = random.nextInt(1) + 1;
+        params.turn = random.nextInt(2) + 1;
     }
 
     public int getGameState() {
