@@ -8,27 +8,35 @@
 
     <TextView
         android:id="@+id/player1name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:padding="8dp"
         android:text="@string/player1_text"
+        android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@+id/player2name"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/player2name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:padding="8dp"
         android:text="@string/player2_text"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/player1name"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/round"
-        android:layout_width="wrap_content"
+        android:id="@+id/roundCount"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:padding="8dp"
         android:text="@string/round_text"
+        android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@+id/turn"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,23 +44,25 @@
 
     <TextView
         android:id="@+id/turn"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:padding="8dp"
         android:text="@string/turn_text"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/round"
+        app:layout_constraintStart_toEndOf="@+id/roundCount"
         app:layout_constraintTop_toBottomOf="@+id/player2name" />
 
-    <Spinner
-        android:id="@+id/spinnerCapture"
+    <Button
+        android:id="@+id/buttonCaptureOption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minHeight="32dp"
+        android:onClick="onCaptureOption"
+        android:text="@string/capture_btn_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/round"
-        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+        app:layout_constraintTop_toBottomOf="@+id/roundCount" />
 
     <edu.sdsmt.project1.GameView
         android:id="@+id/gameView"
@@ -61,6 +71,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerCapture" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonCaptureOption" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
