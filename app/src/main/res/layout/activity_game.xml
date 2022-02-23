@@ -58,7 +58,7 @@
         android:id="@+id/buttonSelectCaptureOption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onCaptureOption"
+        android:onClick="onSelectCaptureOption"
         android:text="@string/capture_option_btn_text"
         app:layout_constraintEnd_toStartOf="@+id/buttonCapture"
         app:layout_constraintHorizontal_bias="0.5"

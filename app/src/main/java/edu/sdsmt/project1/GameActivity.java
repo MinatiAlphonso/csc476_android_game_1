@@ -8,17 +8,28 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class GameActivity extends AppCompatActivity {
+
+    private TextView Player1Name = null;
+    private TextView Player2Name = null;
+    private TextView RoundCount = null;
+    private TextView Turn = null;
+    private Button SelectCaptureOption = null;
+    private Button Capture = null;
+    private GameView gameView = null;
 
     //tag to identify information being passed to THIS activity
     public static final String PLAYER1_NAME = "edu.sdsmt.project1.PLAYER1_NAME";
     public static final String PLAYER2_NAME = "edu.sdsmt.project1.PLAYER2_NAME";
     public static final String ROUND_COUNT = "edu.sdsmt.project1.ROUND_COUNT";
 
+    //gets the capture information back from the captureActivity
     public final static String RETURN_CAPTURE_MESSAGE = "edu.sdsmt.project1.RETURN_CAPTURE_MESSAGE";
 
+    //activity launcher for captureActivity
     ActivityResultLauncher<Intent> captureResultLauncher;
 
     @Override
@@ -26,15 +37,23 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        Player1Name = (TextView) findViewById(R.id.textViewPlayer1Name);
+        Player2Name = (TextView) findViewById(R.id.textViewPlayer2Name);
+        RoundCount = (TextView) findViewById(R.id.textViewRoundCount);
+        Turn = (TextView) findViewById(R.id.textViewTurn);
+        SelectCaptureOption = (Button) findViewById(R.id.buttonSelectCaptureOption);
+        Capture = (Button) findViewById(R.id.buttonCapture);
+        gameView = (GameView) findViewById(R.id.gameView);
+
         //Get the message from the intent (StartActivity started up this activity)
         Intent intent = getIntent();
-        TextView Player1Name = findViewById(R.id.textViewPlayer1Name);
         Player1Name.setText(String.format("%s%s", getString(R.string.player1_text),intent.getStringExtra(PLAYER1_NAME)));
-        TextView Player2Name = findViewById(R.id.textViewPlayer2Name);
         Player2Name.setText(String.format("%s%s", getString(R.string.player2_text),intent.getStringExtra(PLAYER2_NAME)));
-        TextView RoundCount = findViewById(R.id.textViewRoundCount);
         RoundCount.setText(String.format("%s%s", getString(R.string.round_text), intent.getIntExtra(ROUND_COUNT,0)));
 
+        Capture.setEnabled(false);
+
+        //Info from CaptureActivity
         ActivityResultContracts.StartActivityForResult contract =
                 new ActivityResultContracts.StartActivityForResult();
         captureResultLauncher =
@@ -46,9 +65,15 @@ public class GameActivity extends AppCompatActivity {
                         // set something to value
                     }});
 
+        //enable the buttonCapture only if buttonSelectCaptureOption click is detected
+        /*SelectCaptureOption.setOnClickListener(v -> {
+            // Code here executes on main thread after user presses button
+            Capture.setEnabled(true);
+        });*/
     }
 
-    public void onCaptureOption(View view){
+    public void onSelectCaptureOption(View view){
+        Capture.setEnabled(true);
         Intent intent = new Intent(this, CaptureActivity.class);
         captureResultLauncher.launch(intent);
     }
