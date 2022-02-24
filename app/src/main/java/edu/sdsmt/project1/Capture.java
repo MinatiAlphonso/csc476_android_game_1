@@ -31,11 +31,15 @@ public class Capture {
         params.y += dy;
         setRect();
     }
-
+    // version with scale
     private void setRect() {
         // might not handle rotation or scale?
         rect.set((int)params.x, (int)params.y, (int)params.x + (int)(captureBitmap.getWidth() * params.scale), (int)params.y+ (int)(captureBitmap.getHeight() * params.scale));
     }
+
+//    private void setRect() {
+//        rect.set((int)params.x, (int)params.y, (int)params.x + captureBitmap.getWidth(), (int)params.y + captureBitmap.getHeight());
+//    }
 
     public boolean hit(float testX, float testY) {
         int pX = (int)((testX - params.x));
@@ -91,10 +95,27 @@ public class Capture {
         return false;
     }
 
+    public Bitmap getCollectBitmap() {
+        return captureBitmap;
+    }
+
+    public float getX() {
+        return params.x;
+    }
+
+    public float getY() {
+        return params.y;
+    }
+
+    public Rect getRect() {
+        return rect;
+    }
+
+
     private static class Parameters implements Serializable {
         public float x = 0;
         public float y = 0;
-        public float scale = 1.0f;
+        public float scale = 0.25f;
         public float angle = 0;
     }
 

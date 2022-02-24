@@ -80,7 +80,7 @@ public class Game {
         return player1;
     }
 
-    public Player getPlayer2Name() {
+    public Player getPlayer2() {
         return player2;
     }
 

@@ -26,24 +26,14 @@ public class Collectible {
         params.y += dy;
         setRect();
     }
-
+    //
     private void setRect() {
         rect.set((int)params.x, (int)params.y, (int)params.x + (int)(collectBitmap.getWidth() * params.scale), (int)params.y+ (int)(collectBitmap.getHeight() * params.scale));
     }
 
-    public boolean hit(float testX, float testY) {
-        int pX = (int)((testX - params.x));
-        int pY = (int)((testY - params.y));
-
-        if(pX < 0 || pX >= collectBitmap.getWidth() ||
-                pY < 0 || pY >= collectBitmap.getHeight()) {
-            return false;
-        }
-
-        // We are within the rectangle of the piece.
-        // Are we touching actual picture?
-        return (collectBitmap.getPixel(pX, pY) & 0xff000000) != 0;
-    }
+//    private void setRect() {
+//        rect.set((int)params.x, (int)params.y, (int)params.x + captureBitmap.getWidth(), (int)params.y + captureBitmap.getHeight());
+//    }
 
     public Bitmap getCollectBitmap() {
         return collectBitmap;
@@ -64,7 +54,7 @@ public class Collectible {
     private static class Parameters implements Serializable {
         public float x = 0;
         public float y = 0;
-        public float scale = 1.0f;
+        public float scale = 0.25f;
         public float angle = 0;
     }
 
