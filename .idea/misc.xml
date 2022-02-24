@@ -4,13 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/7429138/AndroidStudioProjects/mobileproject/app/src/main/res/layout/activity_capture.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/7429138/AndroidStudioProjects/mobileproject/app/src/main/res/layout/activity_game.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/7429138/AndroidStudioProjects/mobileproject/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/7505169/csc476/mobileproject/app/src/main/res/layout/activity_capture.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/7505169/csc476/mobileproject/app/src/main/res/layout/activity_end.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/7505169/csc476/mobileproject/app/src/main/res/layout/activity_game.xml" value="0.25" />
         <entry key="..\:/Users/7505169/csc476/mobileproject/app/src/main/res/layout/activity_gameplay.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/7505169/csc476/mobileproject/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />
-        <entry key="..\:/Users/7505169/csc476/mobileproject/app/src/main/res/layout/activity_start.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>
