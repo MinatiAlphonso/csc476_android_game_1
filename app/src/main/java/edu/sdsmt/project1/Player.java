@@ -67,7 +67,7 @@ public class Player {
     public static class Parameters implements Serializable {
         private float x = 0;
         private float y = 0;
-        private float scale = 0;
+        private float scale = 1.0f;
         private int score = 0;
         private String name = null;
 
