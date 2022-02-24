@@ -93,11 +93,11 @@ public class GameView extends View {
         return game;
     }
 
-    public void saveGameState(Bundle bundle){
+    /*public void saveGameState(Bundle bundle){
         game.saveGameState(bundle);
     }
 
     public void restoreGameState(Bundle bundle){
         game.restoreGameState(bundle);
-    }
+    }*/
 }

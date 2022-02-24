@@ -21,6 +21,8 @@ public class GameActivity extends AppCompatActivity {
     private Button Capture = null;
     private GameView gameView = null;
 
+    private Boolean isCaptureEnabled = false;
+
     //tag to identify information being passed to THIS activity
     public static final String PLAYER1_NAME = "edu.sdsmt.project1.PLAYER1_NAME";
     public static final String PLAYER2_NAME = "edu.sdsmt.project1.PLAYER2_NAME";
@@ -33,8 +35,8 @@ public class GameActivity extends AppCompatActivity {
     ActivityResultLauncher<Intent> captureResultLauncher;
 
     @Override
-    protected void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
         Player1Name = (TextView) findViewById(R.id.textViewPlayer1Name);
@@ -45,17 +47,13 @@ public class GameActivity extends AppCompatActivity {
         Capture = (Button) findViewById(R.id.buttonCapture);
         gameView = (GameView) findViewById(R.id.gameView);
 
-        if(bundle != null){
-            gameView.restoreGameState(bundle);
-        }
-
         //Get the message from the intent (StartActivity started up this activity)
         Intent intent = getIntent();
         Player1Name.setText(String.format("%s%s", getString(R.string.player1_text),intent.getStringExtra(PLAYER1_NAME)));
         Player2Name.setText(String.format("%s%s", getString(R.string.player2_text),intent.getStringExtra(PLAYER2_NAME)));
         RoundCount.setText(String.format("%s%s", getString(R.string.round_text), intent.getIntExtra(ROUND_COUNT,0)));
 
-        Capture.setEnabled(false);
+        Capture.setEnabled(isCaptureEnabled);
 
         //Info from CaptureActivity
         ActivityResultContracts.StartActivityForResult contract =
@@ -72,14 +70,20 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void onSelectCaptureOption(View view){
-        Capture.setEnabled(true);
+        isCaptureEnabled = true;
+        Capture.setEnabled(isCaptureEnabled);
         Intent intent = new Intent(this, CaptureActivity.class);
         captureResultLauncher.launch(intent);
     }
 
-    protected void onSaveInstanceState(Bundle bundle){
+    public void onCapture(View view){
+        isCaptureEnabled = false;
+        Capture.setEnabled(isCaptureEnabled);
+    }
+
+    /*protected void onSaveInstanceState(Bundle bundle){
         super.onSaveInstanceState(bundle);
 
         gameView.saveGameState(bundle);
-    }
+    }*/
 }
