@@ -22,8 +22,6 @@ public class StartActivity extends AppCompatActivity {
         Player1Input = findViewById(R.id.Player1TextInput);
         Player2Input = findViewById(R.id.Player2TextInput);
         RoundInput = findViewById(R.id.RoundsInput);
-        Game game = new Game();
-        game.getPlayerTurn();
 
     }
 

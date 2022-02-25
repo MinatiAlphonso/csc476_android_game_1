@@ -51,18 +51,27 @@ public class Collectible {
         return rect;
     }
 
+    public boolean isCaptured() {
+        return params.captured;
+    }
+
+    public void capture() {
+        params.captured = true;
+    }
+
     private static class Parameters implements Serializable {
         public float x = 0;
         public float y = 0;
         public float scale = 0.25f;
         public float angle = 0;
+        public boolean captured = false;
     }
 
-    public void saveCaptureState(String key, Bundle bundle) {
+    public void saveCollectibleState(String key, Bundle bundle) {
         bundle.putSerializable(key, params);
     }
 
-    public void loadCaptureState(String key, Bundle bundle) {
+    public void loadCollectibleState(String key, Bundle bundle) {
         params = (Parameters)bundle.getSerializable(key);
         setRect();
     }

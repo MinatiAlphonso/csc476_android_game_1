@@ -62,6 +62,8 @@ public class Capture {
      * @return True if there is any overlap between the two coverPics.
      */
     public boolean collisionTest(Collectible other) {
+        // collision works as long as the collectible and capture are not scaled
+
         // Do the rectangles overlap?
         if(!Rect.intersects(rect, other.getRect())) {
             return false;
