@@ -33,10 +33,9 @@ public class CaptureActivity extends AppCompatActivity {
 
     private void close() {
         Intent intent = new Intent();
-        intent.putExtra("CAPTURE_TYPE", captureType);
+        intent.putExtra(GameActivity.RETURN_CAPTURE_MESSAGE, captureType);
         setResult(RESULT_OK, intent);
         finish();
     }
-
 
 }
