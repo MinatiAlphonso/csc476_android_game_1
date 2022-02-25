@@ -17,6 +17,14 @@ public class Game {
     private Player player2;
     private Random random;
 
+    // finish Capture in game class
+    private Capture circleCapture = null;
+    private Capture rectangleCapture = null;
+    private Capture lineCapture = null;
+
+    // add collectibles here
+
+
     private static final String GAME_PARAMS = "edu.sdsmt.project1.gameparams";
     private static final String PLAYER1_PARAMS = "edu.sdsmt.project1.player1params";
     private static final String PLAYER2_PARAMS = "edu.sdsmt.project1.player2params";
@@ -32,6 +40,7 @@ public class Game {
 
     public int getGameState() {
 
+        // check if collectibles are all captured
         if (params.remainingRounds == params.rounds) {
             return GAME_OVER;
         }

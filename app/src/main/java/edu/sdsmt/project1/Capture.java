@@ -32,14 +32,14 @@ public class Capture {
         setRect();
     }
     // version with scale
-    private void setRect() {
-        // might not handle rotation or scale?
-        rect.set((int)params.x, (int)params.y, (int)params.x + (int)(captureBitmap.getWidth() * params.scale), (int)params.y+ (int)(captureBitmap.getHeight() * params.scale));
-    }
-
 //    private void setRect() {
-//        rect.set((int)params.x, (int)params.y, (int)params.x + captureBitmap.getWidth(), (int)params.y + captureBitmap.getHeight());
+//        // might not handle rotation or scale?
+//        rect.set((int)params.x, (int)params.y, (int)params.x + (int)(captureBitmap.getWidth() * params.scale), (int)params.y+ (int)(captureBitmap.getHeight() * params.scale));
 //    }
+
+    private void setRect() {
+        rect.set((int)params.x, (int)params.y, (int)params.x + captureBitmap.getWidth(), (int)params.y + captureBitmap.getHeight());
+    }
 
     public boolean hit(float testX, float testY) {
         int pX = (int)((testX - params.x));

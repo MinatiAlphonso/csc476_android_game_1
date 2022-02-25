@@ -27,13 +27,13 @@ public class Collectible {
         setRect();
     }
     //
-    private void setRect() {
-        rect.set((int)params.x, (int)params.y, (int)params.x + (int)(collectBitmap.getWidth() * params.scale), (int)params.y+ (int)(collectBitmap.getHeight() * params.scale));
-    }
-
 //    private void setRect() {
-//        rect.set((int)params.x, (int)params.y, (int)params.x + captureBitmap.getWidth(), (int)params.y + captureBitmap.getHeight());
+//        rect.set((int)params.x, (int)params.y, (int)params.x + (int)(collectBitmap.getWidth() * params.scale), (int)params.y+ (int)(collectBitmap.getHeight() * params.scale));
 //    }
+
+    private void setRect() {
+        rect.set((int)params.x, (int)params.y, (int)params.x + collectBitmap.getWidth(), (int)params.y + collectBitmap.getHeight());
+    }
 
     public Bitmap getCollectBitmap() {
         return collectBitmap;
