@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -63,10 +64,9 @@ public class GameActivity extends AppCompatActivity {
                 { int resultCode = result.getResultCode();
                     if (resultCode == Activity.RESULT_OK) {
                         Intent data = result.getData();
-                        int value = data.getIntExtra(RETURN_CAPTURE_MESSAGE,0);
-                        // set something to value
+                        String value = data.getStringExtra(RETURN_CAPTURE_MESSAGE);
+                        Log.i("captureOption", value);
                     }});
-
     }
 
     public void onSelectCaptureOption(View view){
