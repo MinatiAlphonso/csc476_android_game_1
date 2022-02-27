@@ -16,7 +16,7 @@ public class Game {
     private Bitmap backgroundBitmap = null;
     private GameView gameView;
     private float imageScale;
-    private final static float SCALE_IN_VIEW = 0.95f;
+    private final static float SCALE_IN_VIEW = 1.0f;
     private float marginLeft;
     private float marginTop;
     private int numCollectibles = 15;
