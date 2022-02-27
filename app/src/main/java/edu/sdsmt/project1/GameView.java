@@ -37,12 +37,6 @@ public class GameView extends View {
         game.setGameView(this);
     }
 
-    /*
-    @Override
-    public boolean onTouchEvent(MotionEvent event){
-        return game.onTouchEvent(this, event);
-    }*/
-
     @Override
     protected void onDraw(Canvas canvas){
         super.onDraw(canvas);
