@@ -65,7 +65,7 @@ public class Game {
         collectibles = new ArrayList<>();
 
         // initialization for captures and collectibles.
-        circleCapture = new Capture(context, R.drawable.player1); // using player image for testing
+        circleCapture = new Capture(context, R.drawable.circle); // using player image for testing
 
         addCollectibleToList(context);
 
@@ -232,6 +232,11 @@ public class Game {
         for(Collectible collect : collectibles){
             collect.draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
         }
+
+        /**
+         * Drawing Test Capture Circle
+         * */
+        circleCapture.draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
 
     }
 

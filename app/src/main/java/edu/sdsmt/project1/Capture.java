@@ -3,6 +3,8 @@ package edu.sdsmt.project1;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
 
@@ -113,11 +115,19 @@ public class Capture {
         return rect;
     }
 
+    public void draw(Canvas canvas, float marginLeft, float marginTop, float imageScale, int width, int height) {
+        canvas.save();
+        canvas.translate(marginLeft, marginTop);
+        canvas.scale(params.scale,params.scale);
+        canvas.drawBitmap(captureBitmap,0,0,null);
+        canvas.restore();
+    }
+
 
     private static class Parameters implements Serializable {
         public float x = 0;
         public float y = 0;
-        public float scale = 0.25f;
+        public float scale = 0.5f;
         public float angle = 0;
     }
 

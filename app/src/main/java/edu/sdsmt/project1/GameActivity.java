@@ -55,9 +55,11 @@ public class GameActivity extends AppCompatActivity {
         game.setPlayersNames(intent.getStringExtra(PLAYER1_NAME),intent.getStringExtra(PLAYER2_NAME));
         game.setRounds(intent.getIntExtra(ROUND_COUNT,0));
 
+
         Player1Name.setText(String.format("%s%s", getString(R.string.player1_text),game.getPlayer1().getName()));
         Player2Name.setText(String.format("%s%s", getString(R.string.player2_text),game.getPlayer2().getName()));
         RoundCount.setText(String.format("%s%s%s%s", getString(R.string.round_text), game.getRound(),"/",game.getTotalRounds()));
+        Turn.setText(String.format("%s%s%s",getString(R.string.turn_text),"Player ",game.getPlayerTurn()));
 
         Capture.setEnabled(isCaptureEnabled);
 
@@ -69,8 +71,7 @@ public class GameActivity extends AppCompatActivity {
                 { int resultCode = result.getResultCode();
                     if (resultCode == Activity.RESULT_OK) {
                         Intent data = result.getData();
-                        String value = data.getStringExtra(RETURN_CAPTURE_MESSAGE);
-                        Log.i("captureOption", value);
+                        String captureValue = data.getStringExtra(RETURN_CAPTURE_MESSAGE);
                     }});
     }
 
