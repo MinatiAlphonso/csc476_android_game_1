@@ -251,16 +251,11 @@ public class Capture {
             rotate(da, touch1.x, touch1.y);
 
             /*
-             * Scale
+             * Scaling
              */
-            float newDx = touch1.x - touch2.x;
-            float newDy = touch1.y - touch2.y;
-            double newDistance = Math.sqrt(Math.pow(newDx, 2) + Math.pow(newDy,2));
-            float oldDx = touch1.lastX - touch2.lastX;
-            float oldDy = touch1.lastY - touch2.lastY;
-            double oldDistance = Math.sqrt(Math.pow(oldDx, 2) + Math.pow(oldDy,2));
-            double scaleFactor = newDistance / oldDistance;
-            params.scale *= scaleFactor;
+            float length1 = length(touch1.lastX, touch1.lastY, touch2.lastX, touch2.lastY);
+            float length2 = length(touch1.x, touch1.y, touch2.x, touch2.y);
+            scale(length2 / length1, touch1.x, touch1.y);
 
         }
     }
@@ -285,6 +280,24 @@ public class Capture {
     }
 
     /**
+     * Rotate the image around the point x1, y1
+     *
+     * @param scale percentage to scale
+     * @param x1    scale point x
+     * @param y1    scale point y
+     */
+    public void scale(float scale, float x1, float y1) {
+        params.scale *= scale;
+
+        // Compute a vector to hatX, hatY
+        float dx = params.x - x1;
+        float dy = params.y - y1;
+
+        // Compute scaled hatX, hatY
+        params.x = x1 + dx * scale;
+        params.y = y1 + dy * scale;
+    }
+    /**
      * Determine the angle for two touches
      * @param x1 Touch 1 x
      * @param y1 Touch 1 y
@@ -298,6 +311,20 @@ public class Capture {
         return (float) Math.toDegrees(Math.atan2(dy, dx));
     }
 
+    /**
+     * Determine the distance between two touches
+     *
+     * @param x1 Touch 1 x
+     * @param y1 Touch 1 y
+     * @param x2 Touch 2 x
+     * @param y2 Touch 2 y
+     * @return computed distance
+     */
+    private float length(float x1, float y1, float x2, float y2) {
+        float dx = x2 - x1;
+        float dy = y2 - y1;
+        return (float) Math.sqrt(dx * dx + dy * dy);
+    }
     private static class Parameters implements Serializable {
         public float x = 0;
         public float y = 0;
