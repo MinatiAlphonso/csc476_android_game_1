@@ -117,6 +117,9 @@ public class Game {
 
     }
 
+    public int getTotalRounds(){
+        return params.rounds;
+    }
     public int getRoundsRemaining() {
         return params.remainingRounds;
     }

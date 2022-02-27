@@ -22,6 +22,7 @@ public class GameActivity extends AppCompatActivity {
     private Button Capture = null;
     private GameView gameView = null;
 
+    private Game game;
     private Boolean isCaptureEnabled = false;
 
     //tag to identify information being passed to THIS activity
@@ -48,11 +49,15 @@ public class GameActivity extends AppCompatActivity {
         Capture = (Button) findViewById(R.id.buttonCapture);
         gameView = (GameView) findViewById(R.id.gameView);
 
+        game = gameView.getGame();
         //Get the message from the intent (StartActivity started up this activity)
         Intent intent = getIntent();
-        Player1Name.setText(String.format("%s%s", getString(R.string.player1_text),intent.getStringExtra(PLAYER1_NAME)));
-        Player2Name.setText(String.format("%s%s", getString(R.string.player2_text),intent.getStringExtra(PLAYER2_NAME)));
-        RoundCount.setText(String.format("%s%s%s", getString(R.string.round_text), "1/",intent.getIntExtra(ROUND_COUNT,0)));
+        game.setPlayersNames(intent.getStringExtra(PLAYER1_NAME),intent.getStringExtra(PLAYER2_NAME));
+        game.setRounds(intent.getIntExtra(ROUND_COUNT,0));
+
+        Player1Name.setText(String.format("%s%s", getString(R.string.player1_text),game.getPlayer1().getName()));
+        Player2Name.setText(String.format("%s%s", getString(R.string.player2_text),game.getPlayer2().getName()));
+        RoundCount.setText(String.format("%s%s%s%s", getString(R.string.round_text), game.getRound(),"/",game.getTotalRounds()));
 
         Capture.setEnabled(isCaptureEnabled);
 
@@ -79,6 +84,7 @@ public class GameActivity extends AppCompatActivity {
     public void onCapture(View view){
         isCaptureEnabled = false;
         Capture.setEnabled(isCaptureEnabled);
+
     }
 
     /*protected void onSaveInstanceState(Bundle bundle){
