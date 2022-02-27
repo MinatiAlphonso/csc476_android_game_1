@@ -130,6 +130,7 @@ public class Capture {
         canvas.save();
         canvas.translate(marginLeft+params.x, marginTop+params.y);
         canvas.scale(params.scale,params.scale);
+        canvas.rotate(params.angle);
         canvas.drawBitmap(captureBitmap,0,0,null);
         canvas.restore();
     }
@@ -237,6 +238,64 @@ public class Capture {
             Log.i("X2", String.valueOf(params.x));
             Log.i("Y2", String.valueOf(params.y));
         }
+        if(touch2.id >= 0) {
+            // Two touches
+
+            /*
+             * Rotation
+             */
+
+            float angle1 = angle(touch1.lastX, touch1.lastY, touch2.lastX, touch2.lastY);
+            float angle2 = angle(touch1.x, touch1.y, touch2.x, touch2.y);
+            float da = angle2 - angle1;
+            rotate(da, touch1.x, touch1.y);
+
+            /*
+             * Scale
+             */
+            float newDx = touch1.x - touch2.x;
+            float newDy = touch1.y - touch2.y;
+            double newDistance = Math.sqrt(Math.pow(newDx, 2) + Math.pow(newDy,2));
+            float oldDx = touch1.lastX - touch2.lastX;
+            float oldDy = touch1.lastY - touch2.lastY;
+            double oldDistance = Math.sqrt(Math.pow(oldDx, 2) + Math.pow(oldDy,2));
+            double scaleFactor = newDistance / oldDistance;
+            params.scale *= scaleFactor;
+
+        }
+    }
+    /**
+     * Rotate the image around the point x1, y1
+     * @param dAngle Angle to rotate in degrees
+     * @param x1 rotation point x
+     * @param y1 rotation point y
+     */
+    public void rotate(float dAngle, float x1, float y1) {
+        params.angle += dAngle;
+
+        // Compute the radians angle
+        double rAngle = Math.toRadians(dAngle);
+        float ca = (float) Math.cos(rAngle);
+        float sa = (float) Math.sin(rAngle);
+        float xp = (params.x - x1) * ca - (params.y - y1) * sa + x1;
+        float yp = (params.x - x1) * sa + (params.y - y1) * ca + y1;
+
+        params.x = xp;
+        params.y = yp;
+    }
+
+    /**
+     * Determine the angle for two touches
+     * @param x1 Touch 1 x
+     * @param y1 Touch 1 y
+     * @param x2 Touch 2 x
+     * @param y2 Touch 2 y
+     * @return computed angle in degrees
+     */
+    private float angle(float x1, float y1, float x2, float y2) {
+        float dx = x2 - x1;
+        float dy = y2 - y1;
+        return (float) Math.toDegrees(Math.atan2(dy, dx));
     }
 
     private static class Parameters implements Serializable {
