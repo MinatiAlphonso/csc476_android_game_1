@@ -1,13 +1,25 @@
 package edu.sdsmt.project1;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Game {
+
+    private Bitmap backgroundBitmap = null;
+    private GameView gameView;
+    private float imageScale;
+    private final static float SCALE_IN_VIEW = 0.95f;
+    private float marginLeft;
+    private float marginTop;
+    private int numCollectibles = 15;
     // Public variables to reference
     public static final int PLAYER1_TURN = 1;
     public static final int PLAYER2_TURN = 2;
@@ -26,7 +38,6 @@ public class Game {
     private Capture circleCapture;
     private Capture rectangleCapture;
     private Capture lineCapture;
-
     private ArrayList<Collectible> collectibles;
 
     // add collectibles here
@@ -50,12 +61,26 @@ public class Game {
         // should either 1 or 2
         params.turn = random.nextInt(2) + 1;
 
+        backgroundBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.space);
         collectibles = new ArrayList<>();
 
         // initialization for captures and collectibles.
         circleCapture = new Capture(context, R.drawable.player1); // using player image for testing
 
-        collectibles.add(new Collectible(context, R.drawable.collectible));
+        addCollectibleToList(context);
+
+        shuffle();
+    }
+
+    public void addCollectibleToList(Context context){
+        for(int i = 0; i < numCollectibles; i++) {
+            collectibles.add(new Collectible(context, R.drawable.collectible));
+        }
+    }
+    public  void shuffle(){
+        for(Collectible collect : collectibles){
+            collect.shuffle(random);
+        }
     }
 
     public int getGameState() {
@@ -163,6 +188,54 @@ public class Game {
         return true;
     }
 
+    public void draw(Canvas canvas) {
+        /**
+         * Draw Background
+         */
+        if(backgroundBitmap == null) {
+            return;
+        }
+
+        float wid = canvas.getWidth();
+        float hit = canvas.getHeight();
+
+        // What would be the scale to draw the where it fits both
+        // horizontally and vertically?
+        float scaleH = wid / backgroundBitmap.getWidth();
+        float scaleV = hit / backgroundBitmap.getHeight();
+
+        // Use the lesser of the two
+        imageScale = scaleH < scaleV ? scaleH : scaleV;
+        imageScale *= SCALE_IN_VIEW;
+        // What is the scaled image size?
+        float iWid = imageScale * backgroundBitmap.getWidth();
+        float iHit = imageScale * backgroundBitmap.getHeight();
+
+        // Determine the top and left margins to center
+        marginLeft = (wid - iWid) / 2.0f;
+        marginTop = (hit - iHit) / 2.0f;
+
+        // And draw the bitmap
+        canvas.save();
+        canvas.translate(marginLeft,  marginTop);
+        canvas.scale(imageScale, imageScale);
+        canvas.drawBitmap(backgroundBitmap, 0,0, null);
+        canvas.restore();
+        // x range would be from marginLeft to marginLeft+imgWidth*imageScale
+        // y range would be from marginTop to marginTop+imgHeight*imageScale
+        /**
+         * Draw Collectibles
+         * */
+        for(Collectible collect : collectibles){
+            collect.draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
+        }
+
+    }
+
+    public void setGameView(GameView gameView) {
+        this.gameView = gameView;
+    }
+
     // class to serialize parameters
     private static class Parameters implements Serializable {
         // added rounds for now. Might not be needed
@@ -170,6 +243,8 @@ public class Game {
         private int remainingRounds = 0;
         private int turn = 1;
         private int capture = 1;
+        private float x = 0;
+        private float y = 0;
     }
 
     public void saveGameState(Bundle bundle) {

@@ -16,7 +16,7 @@ public class GameView extends View {
     private Game game;
 
     //game area background
-    Bitmap backgroundBitmap = null;
+    private Bitmap backgroundBitmap = null;
     private float imageScale = 1;
     private float marginLeft = 0;
     private float marginTop = 0;
@@ -38,8 +38,8 @@ public class GameView extends View {
 
     public void init(){
         backgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.space);
-        //game = new Game(getContext());
-        //game.setGameView(this);
+        game = new Game(getContext());
+        game.setGameView(this);
     }
 
     /*
@@ -52,41 +52,9 @@ public class GameView extends View {
     protected void onDraw(Canvas canvas){
         super.onDraw(canvas);
 
-        //should the drawing of the background be done in game.draw() too?
-        drawBackground(canvas);
-        //game.draw(canvas);
-    }
 
-    public void drawBackground(Canvas canvas){
-        if(backgroundBitmap == null) {
-            return;
-        }
+        game.draw(canvas);
 
-        float wid = getWidth();
-        float hit = getHeight();
-
-        // What would be the scale to draw the where it fits both
-        // horizontally and vertically?
-        float scaleH = wid / backgroundBitmap.getWidth();
-        float scaleV = hit / backgroundBitmap.getHeight();
-
-        // Use the lesser of the two
-        imageScale = scaleH < scaleV ? scaleH : scaleV;
-
-        // What is the scaled image size?
-        float iWid = imageScale * backgroundBitmap.getWidth();
-        float iHit = imageScale * backgroundBitmap.getHeight();
-
-        // Determine the top and left margins to center
-        marginLeft = (wid - iWid) / 2;
-        marginTop = (hit - iHit) / 2;
-
-        // And draw the bitmap
-        canvas.save();
-        canvas.translate(marginLeft,  marginTop);
-        canvas.scale(imageScale, imageScale);
-        canvas.drawBitmap(backgroundBitmap, 0, 0, null);
-        canvas.restore();
     }
 
     public Game getGame(){

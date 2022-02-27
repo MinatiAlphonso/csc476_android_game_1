@@ -3,10 +3,13 @@ package edu.sdsmt.project1;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.io.Serializable;
+import java.util.Random;
 
 public class Collectible {
 
@@ -18,6 +21,7 @@ public class Collectible {
         collectBitmap = BitmapFactory.decodeResource(context.getResources(), id);
         rect = new Rect();
         params = new Parameters();
+        params.id = id;
         setRect();
     }
 
@@ -39,6 +43,12 @@ public class Collectible {
         return collectBitmap;
     }
 
+    public void setX(float x){
+        params.x = x;
+    }
+    public void setY(float y){
+        params.y = y;
+    }
     public float getX() {
         return params.x;
     }
@@ -59,9 +69,28 @@ public class Collectible {
         params.captured = true;
     }
 
+    public void draw(Canvas canvas, float marginLeft, float marginTop, float imageScale, float imgWid, float imgHit) {
+        /**
+         * Draw Collectible
+         */
+        canvas.save();
+        canvas.translate(marginLeft+(params.x*imgWid*imageScale), marginTop+(params.y*imgHit*imageScale));
+        Log.i("Loc Draw",String.valueOf(marginLeft+(params.x*imgWid*imageScale))+" , "+ String.valueOf(marginTop+(params.y*imgHit*imageScale)));
+        canvas.scale(params.scale, params.scale);
+        canvas.translate(-collectBitmap.getWidth()/2.0f, -collectBitmap.getHeight()/2.0f);
+        canvas.drawBitmap(collectBitmap,0, 0,null);
+        canvas.restore();
+    }
+
+    public void shuffle(Random rand) {
+        params.x = rand.nextFloat();
+        params.y = rand.nextFloat();
+    }
+
     private static class Parameters implements Serializable {
         public float x = 0;
         public float y = 0;
+        public int id = -1;
         public float scale = 0.25f;
         public float angle = 0;
         public boolean captured = false;
