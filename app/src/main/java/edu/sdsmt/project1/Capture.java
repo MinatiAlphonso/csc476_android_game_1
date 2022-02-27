@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +30,7 @@ public class Capture {
     private Rect rect;
     private Rect overlap = new Rect();
     private Parameters params;
+    private Paint paint;
     /**
      * First touch status
      */
@@ -43,7 +46,11 @@ public class Capture {
         rect = new Rect();
         params = new Parameters();
         setRect();
-
+        // debugging paint for collision boxes
+        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(context.getResources().getColor(R.color.purple_200));
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(4);
     }
 
     /**
@@ -62,14 +69,14 @@ public class Capture {
         setRect();
     }*/
     // version with scale
-//    private void setRect() {
-//        // might not handle rotation or scale?
-//        rect.set((int)params.x, (int)params.y, (int)params.x + (int)(captureBitmap.getWidth() * params.scale), (int)params.y+ (int)(captureBitmap.getHeight() * params.scale));
-//    }
-
     private void setRect() {
-        rect.set((int)params.x, (int)params.y, (int)params.x + captureBitmap.getWidth(), (int)params.y + captureBitmap.getHeight());
+        // might not handle rotation or scale?
+        rect.set((int)params.x, (int)params.y, (int)params.x + (int)(captureBitmap.getWidth() * params.scale), (int)params.y + (int)(captureBitmap.getHeight() * params.scale));
     }
+
+//    private void setRect() {
+//        rect.set((int)params.x, (int)params.y, (int)params.x + captureBitmap.getWidth(), (int)params.y + captureBitmap.getHeight());
+//    }
 
     public boolean hit(float testX, float testY) {
         int pX = (int)((testX - params.x));
@@ -91,12 +98,12 @@ public class Capture {
      * @param other collectible to compare to.
      * @return True if there is any overlap between the two coverPics.
      */
-    public boolean collisionTest(Collectible other) {
+    public boolean collisionTest(Collectible other, int width, int height) {
         // collision works as long as the collectible and capture are not scaled
 
         // Do the rectangles overlap?
-        if(!Rect.intersects(rect, other.getRect())) {
-            return false;
+        if(Rect.intersects(rect, other.getRect())) {
+            return true;
         }
 
         // Determine where the two images overlap
@@ -109,12 +116,12 @@ public class Capture {
         // We have overlap. Now see if we have any pixels in common
         for(int r=overlap.top; r<overlap.bottom;  r++) {
             int aY = (int)((r - params.y));
-            int bY = (int)((r - other.getY()));
+            int bY = (int)((r - other.getY() * height));
 
             for(int c=overlap.left;  c<overlap.right;  c++) {
 
                 int aX = (int)((c - params.x));
-                int bX = (int)((c - other.getX()));
+                int bX = (int)((c - other.getX() * width));
 
                 if( (captureBitmap.getPixel(aX, aY) & 0x80000000) != 0 &&
                         (other.getCollectBitmap().getPixel(bX, bY) & 0x80000000) != 0) {
@@ -149,6 +156,10 @@ public class Capture {
         canvas.scale(params.scale,params.scale);
         canvas.rotate(params.angle);
         canvas.drawBitmap(captureBitmap,0,0,null);
+        canvas.restore();
+        // debugging draw to show collision boxes
+        canvas.save();
+        canvas.drawRect(rect, paint);
         canvas.restore();
     }
 
@@ -229,7 +240,7 @@ public class Capture {
                 touch2.y = y;
             }
         }
-
+        setRect();
         gameView.invalidate();
     }
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,13 +17,21 @@ public class Collectible {
     private Bitmap collectBitmap;
     private Rect rect;
     private Parameters params;
+    Paint paint;
 
-    public Collectible(Context context, int id) {
+    public Collectible(Context context, int id, int width, int height) {
         collectBitmap = BitmapFactory.decodeResource(context.getResources(), id);
         rect = new Rect();
         params = new Parameters();
+        params.backgroundHeight = height;
+        params.backgroundWidth = width;
         params.id = id;
         setRect();
+        // debugging paint to draw collision boxes
+        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(context.getResources().getColor(R.color.purple_200));
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(4);
     }
 
     public void move(float dx, float dy) {
@@ -30,14 +39,14 @@ public class Collectible {
         params.y += dy;
         setRect();
     }
-    //
-//    private void setRect() {
-//        rect.set((int)params.x, (int)params.y, (int)params.x + (int)(collectBitmap.getWidth() * params.scale), (int)params.y+ (int)(collectBitmap.getHeight() * params.scale));
-//    }
 
     private void setRect() {
-        rect.set((int)params.x, (int)params.y, (int)params.x + collectBitmap.getWidth(), (int)params.y + collectBitmap.getHeight());
+        rect.set((int)(params.x * params.backgroundHeight * params.imageScale - collectBitmap.getWidth() * params.scale / 2), (int)(params.y * params.backgroundWidth * params.imageScale - collectBitmap.getHeight() * params.scale / 2), (int)(params.x * params.backgroundHeight * params.imageScale) + (int)(collectBitmap.getWidth() * params.scale / 2), (int)(params.y  * params.backgroundWidth * params.imageScale) + (int)(collectBitmap.getHeight() * params.scale / 2));
     }
+
+//    private void setRect() {
+//        rect.set((int)(params.x * params.backgroundHeight), (int)(params.y * params.backgroundWidth), (int)(params.x * params.backgroundHeight) + collectBitmap.getWidth(), (int)(params.y  * params.backgroundWidth) + collectBitmap.getHeight());
+//    }
 
     public Bitmap getCollectBitmap() {
         return collectBitmap;
@@ -61,6 +70,15 @@ public class Collectible {
         return rect;
     }
 
+    public void setImageScale(float scale) {
+        params.imageScale = scale;
+        setRect();
+    }
+
+    public float getScale() {
+        return params.scale;
+    }
+
     public boolean isCaptured() {
         return params.captured;
     }
@@ -73,17 +91,24 @@ public class Collectible {
         /**
          * Draw Collectible
          */
+        if (!params.captured) {
+            canvas.save();
+            canvas.translate(marginLeft + (params.x * imgWid * imageScale), marginTop + (params.y * imgHit * imageScale));
+            canvas.scale(params.scale, params.scale);
+            canvas.translate(-collectBitmap.getWidth() / 2.0f, -collectBitmap.getHeight() / 2.0f);
+            canvas.drawBitmap(collectBitmap, 0, 0, null);
+            canvas.restore();
+        }
+        // debugging draw to show collision boxes
         canvas.save();
-        canvas.translate(marginLeft+(params.x*imgWid*imageScale), marginTop+(params.y*imgHit*imageScale));
-        canvas.scale(params.scale, params.scale);
-        canvas.translate(-collectBitmap.getWidth()/2.0f, -collectBitmap.getHeight()/2.0f);
-        canvas.drawBitmap(collectBitmap,0, 0,null);
+        canvas.drawRect(rect, paint);
         canvas.restore();
     }
 
     public void shuffle(Random rand) {
         params.x = rand.nextFloat();
         params.y = rand.nextFloat();
+        setRect();
     }
 
     private static class Parameters implements Serializable {
@@ -93,6 +118,9 @@ public class Collectible {
         public float scale = 0.25f;
         public float angle = 0;
         public boolean captured = false;
+        public int backgroundHeight = 0;
+        public int backgroundWidth = 0;
+        public float imageScale = 0;
     }
 
     public void saveCollectibleState(String key, Bundle bundle) {
