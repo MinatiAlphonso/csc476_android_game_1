@@ -15,11 +15,6 @@ public class GameView extends View {
 
     private Game game;
 
-    //game area background
-    private Bitmap backgroundBitmap = null;
-    private float imageScale = 1;
-    private float marginLeft = 0;
-    private float marginTop = 0;
 
     public GameView(Context context) {
         super(context);
@@ -37,7 +32,6 @@ public class GameView extends View {
     }
 
     public void init(){
-        backgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.space);
         game = new Game(getContext());
         game.setGameView(this);
     }

@@ -52,7 +52,7 @@ public class GameActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Player1Name.setText(String.format("%s%s", getString(R.string.player1_text),intent.getStringExtra(PLAYER1_NAME)));
         Player2Name.setText(String.format("%s%s", getString(R.string.player2_text),intent.getStringExtra(PLAYER2_NAME)));
-        RoundCount.setText(String.format("%s%s", getString(R.string.round_text), intent.getIntExtra(ROUND_COUNT,0)));
+        RoundCount.setText(String.format("%s%s%s", getString(R.string.round_text), "1/",intent.getIntExtra(ROUND_COUNT,0)));
 
         Capture.setEnabled(isCaptureEnabled);
 
