@@ -29,6 +29,8 @@ public class Game {
     public static final int PLAYER2_TURN = 2;
     public static final int GAME_OVER = -1;
     public static final int GAME_PLAYING = 0;
+
+    public static final int NO_CAPTURE = 0;
     public static final int CIRCLE_CAPTURE = 1;
     public static final int RECTANGLE_CAPTURE = 2;
     public static final int LINE_CAPTURE = 3;
@@ -43,8 +45,6 @@ public class Game {
     private Capture rectangleCapture;
     private Capture lineCapture;
     private ArrayList<Collectible> collectibles;
-
-    // add collectibles here
 
 
     private static final String GAME_PARAMS = "edu.sdsmt.project1.gameparams";
@@ -79,7 +79,7 @@ public class Game {
 
     public void addCollectibleToList(Context context){
         for(int i = 0; i < numCollectibles; i++) {
-            collectibles.add(new Collectible(context, R.drawable.collectible));
+            collectibles.add(new Collectible(context, R.drawable.collectible, backgroundBitmap.getWidth(), backgroundBitmap.getHeight()));
         }
     }
     public  void shuffle(){
@@ -149,6 +149,8 @@ public class Game {
     public Capture getCapture() {
 
         switch (params.capture) {
+            case NO_CAPTURE:
+                return null;
             case CIRCLE_CAPTURE:
                 return circleCapture;
 
@@ -175,16 +177,48 @@ public class Game {
     // capture functions still need to be finished with capture class and collectible class
     // Returns whether a collectible was captured by rectangle
     // update to take capture class
-    public void rectangleCaptured() {
-        // rectangle probability varies based on the scale
+    public void capture() {
+        Capture cap = circleCapture;
+        switch (params.capture) {
+            case NO_CAPTURE:
+                return;
+            case CIRCLE_CAPTURE:
+                cap = circleCapture;
+                break;
+            case RECTANGLE_CAPTURE:
+                cap = rectangleCapture;
+                break;
+            case LINE_CAPTURE:
+                cap = lineCapture;
+                break;
+        }
+        ArrayList<Collectible> test = new ArrayList<>();
+        for (Collectible collect : collectibles) {
+            if (cap.collisionTest(collect, backgroundBitmap.getWidth(), backgroundBitmap.getHeight())) {
+                Log.i("collided", "location: " + collect.getX() + ", " + collect.getY());
+                collect.capture();
+                test.add(collect);
+            }
+        }
     }
 
-    public void circleCaptured() {
+    private boolean lineCaptureProb() {
+        int prob = random.nextInt(4);
 
+        if (prob == 3) {
+            return false;
+        }
+
+        return true;
     }
 
-    public void lineCaptured() {
+    private boolean rectangleCaptureProb(float scale) {
+        int prob = random.nextInt(100);
 
+        if (prob > 48) {
+            return true;
+        }
+        return false;
     }
 
     private boolean allCollectiblesCaptured() {
@@ -229,6 +263,10 @@ public class Game {
         canvas.scale(imageScale, imageScale);
         canvas.drawBitmap(backgroundBitmap, 0,0, null);
         canvas.restore();
+
+        for (Collectible collect : collectibles) {
+            collect.setImageScale(imageScale);
+        }
         // x range would be from marginLeft to marginLeft+imgWidth*imageScale
         // y range would be from marginTop to marginTop+imgHeight*imageScale
         /**
@@ -241,13 +279,36 @@ public class Game {
         /**
          * Drawing Test Capture Circle. Need To Decide When/Where to make this call
          * */
-        //circleCapture.draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
-        rectangleCapture.draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
+        switch (params.capture) {
+            case NO_CAPTURE:
+                break;
+            case CIRCLE_CAPTURE:
+                circleCapture.draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
+                break;
+            case RECTANGLE_CAPTURE:
+                rectangleCapture.draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
+                break;
+            case LINE_CAPTURE:
+                lineCapture.draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
+                break;
+        }
+
+        //rectangleCapture.draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
         //lineCapture.draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
 
     }
 
     public boolean onTouchEvent(View gameView, MotionEvent event) {
+        switch (params.capture) {
+            case NO_CAPTURE:
+                return true;
+            case CIRCLE_CAPTURE:
+                return circleCapture.onTouchEvent(gameView,event, marginLeft, marginTop, imageScale);
+            case RECTANGLE_CAPTURE:
+                return rectangleCapture.onTouchEvent(gameView,event, marginLeft, marginTop, imageScale);
+            case LINE_CAPTURE:
+                return lineCapture.onTouchEvent(gameView,event, marginLeft, marginTop, imageScale);
+        }
         //return circleCapture.onTouchEvent(gameView,event, marginLeft, marginTop, imageScale);
         return rectangleCapture.onTouchEvent(gameView,event, marginLeft, marginTop, imageScale);
         //return lineCapture.onTouchEvent(gameView,event, marginLeft, marginTop, imageScale);
@@ -263,7 +324,8 @@ public class Game {
         private int rounds = 0;
         private int remainingRounds = 0;
         private int turn = 1;
-        private int capture = 1;
+        // which capture option we are using
+        private int capture = CIRCLE_CAPTURE;
         private float x = 0;
         private float y = 0;
     }
@@ -274,6 +336,8 @@ public class Game {
         player2.savePlayer(PLAYER2_PARAMS, bundle);
 
         circleCapture.saveCaptureState(CIRCLE_PARAMS, bundle);
+        rectangleCapture.saveCaptureState(RECTANGLE_PARAMS, bundle);
+        lineCapture.saveCaptureState(LINE_PARAMS, bundle);
         int i = 0;
         for (Collectible collect : collectibles) {
             collect.saveCollectibleState(COLLECTIBLE_PARAMS + i, bundle);
@@ -287,6 +351,8 @@ public class Game {
         player2.restorePlayer(PLAYER2_PARAMS, bundle);
 
         circleCapture.loadCaptureState(CIRCLE_PARAMS, bundle);
+        rectangleCapture.loadCaptureState(RECTANGLE_PARAMS, bundle);
+        lineCapture.loadCaptureState(LINE_PARAMS, bundle);
         int i = 0;
         for (Collectible collect : collectibles) {
             collect.loadCollectibleState(COLLECTIBLE_PARAMS + i, bundle);
