@@ -6,12 +6,16 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Game {
+
+
 
     private Bitmap backgroundBitmap = null;
     private GameView gameView;
@@ -66,7 +70,8 @@ public class Game {
 
         // initialization for captures and collectibles.
         circleCapture = new Capture(context, R.drawable.circle); // using player image for testing
-
+        rectangleCapture = new Capture(context, R.drawable.rectangle);
+        lineCapture = new Capture(context, R.drawable.line);
         addCollectibleToList(context);
 
         shuffle();
@@ -238,6 +243,10 @@ public class Game {
          * */
         circleCapture.draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
 
+    }
+
+    public boolean onTouchEvent(View gameView, MotionEvent event) {
+        return circleCapture.onTouchEvent(gameView,event, marginLeft, marginTop, imageScale);
     }
 
     public void setGameView(GameView gameView) {

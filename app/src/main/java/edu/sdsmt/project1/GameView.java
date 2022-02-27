@@ -1,5 +1,6 @@
 package edu.sdsmt.project1;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -46,9 +47,13 @@ public class GameView extends View {
     protected void onDraw(Canvas canvas){
         super.onDraw(canvas);
 
-
         game.draw(canvas);
+    }
 
+    @SuppressLint("ClickableViewAccessibility")
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        return game.onTouchEvent(this, event);
     }
 
     public Game getGame(){

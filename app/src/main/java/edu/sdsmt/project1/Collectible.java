@@ -75,7 +75,6 @@ public class Collectible {
          */
         canvas.save();
         canvas.translate(marginLeft+(params.x*imgWid*imageScale), marginTop+(params.y*imgHit*imageScale));
-        Log.i("Loc Draw",String.valueOf(marginLeft+(params.x*imgWid*imageScale))+" , "+ String.valueOf(marginTop+(params.y*imgHit*imageScale)));
         canvas.scale(params.scale, params.scale);
         canvas.translate(-collectBitmap.getWidth()/2.0f, -collectBitmap.getHeight()/2.0f);
         canvas.drawBitmap(collectBitmap,0, 0,null);
