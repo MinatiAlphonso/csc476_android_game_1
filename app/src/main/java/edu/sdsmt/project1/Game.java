@@ -242,15 +242,15 @@ public class Game {
          * Drawing Test Capture Circle. Need To Decide When/Where to make this call
          * */
         //circleCapture.draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
-        //rectangleCapture.draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
-        lineCapture.draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
+        rectangleCapture.draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
+        //lineCapture.draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
 
     }
 
     public boolean onTouchEvent(View gameView, MotionEvent event) {
         //return circleCapture.onTouchEvent(gameView,event, marginLeft, marginTop, imageScale);
-        //return rectangleCapture.onTouchEvent(gameView,event, marginLeft, marginTop, imageScale);
-        return lineCapture.onTouchEvent(gameView,event, marginLeft, marginTop, imageScale);
+        return rectangleCapture.onTouchEvent(gameView,event, marginLeft, marginTop, imageScale);
+        //return lineCapture.onTouchEvent(gameView,event, marginLeft, marginTop, imageScale);
     }
 
     public void setGameView(GameView gameView) {
