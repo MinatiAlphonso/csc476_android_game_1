@@ -31,7 +31,6 @@ public class Capture {
     private Rect rect;
     private Rect overlap = new Rect();
     private Parameters params;
-    private Paint paint;
     /**
      * First touch status
      */
@@ -47,11 +46,6 @@ public class Capture {
         rect = new Rect();
         params = new Parameters();
         setRect();
-        // debugging paint for collision boxes
-        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setColor(context.getResources().getColor(R.color.purple_200));
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(4);
     }
 
     /**
@@ -187,6 +181,9 @@ public class Capture {
     public Rect getRect() {
         return rect;
     }
+    public float getScale() {
+        return params.scale;
+    }
 
     public void draw(Canvas canvas, float marginLeft, float marginTop, float imageScale, int width, int height) {
         canvas.save();
@@ -197,10 +194,7 @@ public class Capture {
         canvas.translate(-captureBitmap.getWidth() / 2f, -captureBitmap.getHeight() / 2f);
         canvas.drawBitmap(captureBitmap,0,0,null);
         canvas.restore();
-        // debugging draw to show collision boxes
-        canvas.save();
-        canvas.drawRect(rect, paint);
-        canvas.restore();
+
 
     }
 
