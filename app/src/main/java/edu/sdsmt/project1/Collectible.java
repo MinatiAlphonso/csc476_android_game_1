@@ -17,7 +17,7 @@ public class Collectible {
     private Bitmap collectBitmap;
     private Rect rect;
     private Parameters params;
-    Paint paint;
+
 
     public Collectible(Context context, int id, int width, int height) {
         collectBitmap = BitmapFactory.decodeResource(context.getResources(), id);
@@ -27,11 +27,6 @@ public class Collectible {
         params.backgroundWidth = width;
         params.id = id;
         setRect();
-        // debugging paint to draw collision boxes
-        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setColor(context.getResources().getColor(R.color.purple_200));
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(4);
     }
 
     public void move(float dx, float dy) {
