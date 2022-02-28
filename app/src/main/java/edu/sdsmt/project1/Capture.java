@@ -17,6 +17,13 @@ import java.io.Serializable;
  * load the coverPic image and to do collision detection against another coverPic.
  */
 public class Capture {
+
+    public static class CaptureChance {
+        public static final float rectangle = 0.8f;
+        public static final float circle = 0.8f;
+        public static final float line = 1.0f;
+    }
+
     private Bitmap captureBitmap;
     private Rect rect;
     private Rect overlap = new Rect();
@@ -37,6 +44,16 @@ public class Capture {
         params = new Parameters();
         setRect();
 
+    }
+
+    /**
+     * This function returns the chance of capturing an overlapping collectible
+     * (The chance of capturing corresponds to the shape of the capture area)
+     * @return a float representing the probability that an overlapping collectible
+     *          will be captured
+     */
+    public float getChance() {
+        return 0.0f;//CaptureChance.rectangle;
     }
 
     /*public void move(float dx, float dy) {
