@@ -44,9 +44,6 @@ public class Collectible {
         rect.set((int)(params.x * params.backgroundHeight * params.imageScale - collectBitmap.getWidth() * params.scale / 2), (int)(params.y * params.backgroundWidth * params.imageScale - collectBitmap.getHeight() * params.scale / 2), (int)(params.x * params.backgroundHeight * params.imageScale) + (int)(collectBitmap.getWidth() * params.scale / 2), (int)(params.y  * params.backgroundWidth * params.imageScale) + (int)(collectBitmap.getHeight() * params.scale / 2));
     }
 
-//    private void setRect() {
-//        rect.set((int)(params.x * params.backgroundHeight), (int)(params.y * params.backgroundWidth), (int)(params.x * params.backgroundHeight) + collectBitmap.getWidth(), (int)(params.y  * params.backgroundWidth) + collectBitmap.getHeight());
-//    }
 
     public Bitmap getCollectBitmap() {
         return collectBitmap;
@@ -99,10 +96,6 @@ public class Collectible {
             canvas.drawBitmap(collectBitmap, 0, 0, null);
             canvas.restore();
         }
-        // debugging draw to show collision boxes
-        canvas.save();
-        canvas.drawRect(rect, paint);
-        canvas.restore();
     }
 
     public void shuffle(Random rand) {

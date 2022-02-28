@@ -192,12 +192,16 @@ public class Game {
                 cap = lineCapture;
                 break;
         }
-        ArrayList<Collectible> test = new ArrayList<>();
         for (Collectible collect : collectibles) {
             if (cap.collisionTest(collect)) {
-                Log.i("collided", "location: " + collect.getX() + ", " + collect.getY());
                 collect.capture();
-                test.add(collect);
+
+                if (params.turn == PLAYER1_TURN) {
+                    player1.scored();
+                }
+                else {
+                    player2.scored();
+                }
             }
         }
     }
