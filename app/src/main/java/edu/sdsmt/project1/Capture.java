@@ -69,20 +69,18 @@ public class Capture {
         params.y += dy;
         setRect();
     }*/
-    // version with scale
+
     private void setRect() {
-        // might not handle rotation?
         int locX = (int)params.x;
         int locY = (int)params.y;
-        int endX = (int)locX + (int)(captureBitmap.getWidth() * params.scale);
-        int endY = (int)locY + (int)(captureBitmap.getHeight() * params.scale);
+        int endX = locX + (int)(captureBitmap.getWidth() * params.scale);
+        int endY = locY + (int)(captureBitmap.getHeight() * params.scale);
 
         rect.set(locX, locY, endX, endY);
     }
 
-//    private void setRect() {
-//        rect.set((int)params.x, (int)params.y, (int)params.x + captureBitmap.getWidth(), (int)params.y + captureBitmap.getHeight());
-//    }
+
+
 
     public boolean hit(float testX, float testY) {
         int pX = (int)((testX - params.x));
@@ -117,20 +115,26 @@ public class Capture {
         overlap.intersect(other.getRect());
 
         Matrix m1 = new Matrix();
-        m1.postRotate(params.angle);
+        m1.postRotate(params.angle, 0, 0);
         Bitmap otherBitmap = Bitmap.createScaledBitmap(other.getCollectBitmap(), (int)(other.getCollectBitmap().getWidth() * other.getScale()), (int)(other.getCollectBitmap().getHeight() * other.getScale()), false);
-        Bitmap scaled = Bitmap.createScaledBitmap(captureBitmap, (int)(captureBitmap.getWidth() * params.scale), (int)(captureBitmap.getHeight() * params.scale), false);
-        scaled = Bitmap.createBitmap(scaled, 0, 0, scaled.getWidth(), scaled.getHeight(), m1, true);
+        Bitmap scaled = Bitmap.createScaledBitmap(captureBitmap, (int)(captureBitmap.getWidth() * params.scale), (int)(captureBitmap.getHeight() * params.scale), true);
+        int oldWit = scaled.getWidth();
+        int oldHit = scaled.getHeight();
+        scaled = Bitmap.createBitmap(scaled, 0, 0, scaled.getWidth(), scaled.getWidth(), m1, true);
+        int dw = scaled.getWidth() - oldWit;
+        int dh = scaled.getHeight() - oldHit;
+        scaled = Bitmap.createBitmap(scaled, dw / 2, dh / 2, scaled.getWidth() - dw / 2, scaled.getHeight() - dh / 2);
         // We have overlap. Now see if we have any pixels in common
         for(int r=overlap.top; r<overlap.bottom;  r++) {
-            int aY = (int)((r - (int)params.y));
-            int bY = (int)((r - (int)(other.getY())));
+            int aY = (int)((r - params.y));
+            int bY = (int)((r - (other.getY())));
 
             for(int c=overlap.left;  c<overlap.right;  c++) {
 
-                int aX = (int)((c - (int)params.x));
-                int bX = (int)((c - (int)(other.getX())));
+                int aX = (int)((c - params.x));
+                int bX = (int)((c - (other.getX())));
 
+                // checks to ensure nothing is out of bounds.
                 if (aY < 0) {
                     aY = 0;
                 }
@@ -188,13 +192,16 @@ public class Capture {
         canvas.save();
         canvas.translate(marginLeft+params.x, marginTop+params.y);
         canvas.scale(params.scale,params.scale);
+        canvas.translate(captureBitmap.getWidth() / 2f, captureBitmap.getHeight() / 2f);
         canvas.rotate(params.angle);
+        canvas.translate(-captureBitmap.getWidth() / 2f, -captureBitmap.getHeight() / 2f);
         canvas.drawBitmap(captureBitmap,0,0,null);
         canvas.restore();
         // debugging draw to show collision boxes
         canvas.save();
         canvas.drawRect(rect, paint);
         canvas.restore();
+
     }
 
     public boolean onTouchEvent(View gameView, MotionEvent event, float marginLeft, float marginTop, float imageScale) {
