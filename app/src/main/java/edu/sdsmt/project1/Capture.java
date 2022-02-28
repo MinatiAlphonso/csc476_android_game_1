@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
@@ -53,8 +54,13 @@ public class Capture {
     }*/
     // version with scale
     private void setRect() {
-        // might not handle rotation or scale?
-        rect.set((int)params.x, (int)params.y, (int)params.x + (int)(captureBitmap.getWidth() * params.scale), (int)params.y + (int)(captureBitmap.getHeight() * params.scale));
+        // might not handle rotation?
+        int locX = (int)params.x;
+        int locY = (int)params.y;
+        int endX = (int)locX + (int)(captureBitmap.getWidth() * params.scale);
+        int endY = (int)locY + (int)(captureBitmap.getHeight() * params.scale);
+
+        rect.set(locX, locY, endX, endY);
     }
 
 //    private void setRect() {
@@ -81,33 +87,61 @@ public class Capture {
      * @param other collectible to compare to.
      * @return True if there is any overlap between the two coverPics.
      */
-    public boolean collisionTest(Collectible other, int width, int height) {
+    public boolean collisionTest(Collectible other) {
         // collision works as long as the collectible and capture are not scaled
 
         // Do the rectangles overlap?
-        if(Rect.intersects(rect, other.getRect())) {
-            return true;
+        if(!Rect.intersects(rect, other.getRect())) {
+            return false;
         }
 
         // Determine where the two images overlap
         overlap.set(rect);
+        overlap.intersect(other.getRect());
 
-        if (!overlap.intersect(other.getRect())) {
-            return false;
-        }
-
+        Matrix m1 = new Matrix();
+        m1.postRotate(params.angle);
+        Bitmap otherBitmap = Bitmap.createScaledBitmap(other.getCollectBitmap(), (int)(other.getCollectBitmap().getWidth() * other.getScale()), (int)(other.getCollectBitmap().getHeight() * other.getScale()), false);
+        Bitmap scaled = Bitmap.createScaledBitmap(captureBitmap, (int)(captureBitmap.getWidth() * params.scale), (int)(captureBitmap.getHeight() * params.scale), false);
+        scaled = Bitmap.createBitmap(scaled, 0, 0, scaled.getWidth(), scaled.getHeight(), m1, true);
         // We have overlap. Now see if we have any pixels in common
         for(int r=overlap.top; r<overlap.bottom;  r++) {
-            int aY = (int)((r - params.y));
-            int bY = (int)((r - other.getY() * height));
+            int aY = (int)((r - (int)params.y));
+            int bY = (int)((r - (int)(other.getY())));
 
             for(int c=overlap.left;  c<overlap.right;  c++) {
 
-                int aX = (int)((c - params.x));
-                int bX = (int)((c - other.getX() * width));
+                int aX = (int)((c - (int)params.x));
+                int bX = (int)((c - (int)(other.getX())));
 
-                if( (captureBitmap.getPixel(aX, aY) & 0x80000000) != 0 &&
-                        (other.getCollectBitmap().getPixel(bX, bY) & 0x80000000) != 0) {
+                if (aY < 0) {
+                    aY = 0;
+                }
+                if (bY < 0) {
+                    bY = 0;
+                }
+                if (aX < 0) {
+                    aX = 0;
+                }
+                if (bX < 0) {
+                    bX = 0;
+                }
+
+                if (aY >= scaled.getHeight()) {
+                    aY = scaled.getHeight() - 1;
+                }
+                if (bY >= otherBitmap.getHeight()) {
+                    bY = otherBitmap.getHeight() - 1;
+                }
+                if (aX >= scaled.getWidth()) {
+                    aX = scaled.getWidth() - 1;
+                }
+                if (bX >= otherBitmap.getWidth()) {
+                    bX = otherBitmap.getWidth() - 1;
+                }
+
+                if( (scaled.getPixel(aX, aY) & 0x80000000) != 0 &&
+                        (otherBitmap.getPixel(bX, bY) & 0x80000000) != 0) {
                     //Log.i("collision", "Overlap " + r + "," + c);
                     return true;
                 }

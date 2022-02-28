@@ -194,7 +194,7 @@ public class Game {
         }
         ArrayList<Collectible> test = new ArrayList<>();
         for (Collectible collect : collectibles) {
-            if (cap.collisionTest(collect, backgroundBitmap.getWidth(), backgroundBitmap.getHeight())) {
+            if (cap.collisionTest(collect)) {
                 Log.i("collided", "location: " + collect.getX() + ", " + collect.getY());
                 collect.capture();
                 test.add(collect);
@@ -325,7 +325,7 @@ public class Game {
         private int remainingRounds = 0;
         private int turn = 1;
         // which capture option we are using
-        private int capture = CIRCLE_CAPTURE;
+        private int capture = RECTANGLE_CAPTURE;
         private float x = 0;
         private float y = 0;
     }

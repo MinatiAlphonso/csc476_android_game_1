@@ -59,11 +59,11 @@ public class Collectible {
         params.y = y;
     }
     public float getX() {
-        return params.x;
+        return params.x * params.backgroundHeight * params.imageScale - collectBitmap.getWidth() * params.scale / 2;
     }
 
     public float getY() {
-        return params.y;
+        return params.y * params.backgroundWidth * params.imageScale - collectBitmap.getHeight() * params.scale / 2;
     }
 
     public Rect getRect() {
