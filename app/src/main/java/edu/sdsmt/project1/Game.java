@@ -183,26 +183,47 @@ public class Game {
             case NO_CAPTURE:
                 return;
             case CIRCLE_CAPTURE:
-                cap = circleCapture;
+                for (Collectible collect : collectibles) {
+                    if (circleCapture.collisionTest(collect)) {
+                        collect.capture();
+
+                        if (params.turn == PLAYER1_TURN) {
+                            player1.scored();
+                        }
+                        else {
+                            player2.scored();
+                        }
+                    }
+                }
                 break;
             case RECTANGLE_CAPTURE:
-                cap = rectangleCapture;
+                for (Collectible collect : collectibles) {
+                    if (rectangleCapture.collisionTest(collect) && rectangleCaptureProb(rectangleCapture.getScale())) {
+                        collect.capture();
+
+                        if (params.turn == PLAYER1_TURN) {
+                            player1.scored();
+                        }
+                        else {
+                            player2.scored();
+                        }
+                    }
+                }
                 break;
             case LINE_CAPTURE:
-                cap = lineCapture;
-                break;
-        }
-        for (Collectible collect : collectibles) {
-            if (cap.collisionTest(collect)) {
-                collect.capture();
+                for (Collectible collect : collectibles) {
+                    if (lineCapture.collisionTest(collect) && lineCaptureProb()) {
+                        collect.capture();
 
-                if (params.turn == PLAYER1_TURN) {
-                    player1.scored();
+                        if (params.turn == PLAYER1_TURN) {
+                            player1.scored();
+                        }
+                        else {
+                            player2.scored();
+                        }
+                    }
                 }
-                else {
-                    player2.scored();
-                }
-            }
+                break;
         }
     }
 
@@ -217,7 +238,8 @@ public class Game {
     }
 
     private boolean rectangleCaptureProb(float scale) {
-        int prob = random.nextInt(100);
+        // Scale starts at 0.25
+        int prob = (int)(random.nextInt(25) / scale);
 
         if (prob > 48) {
             return true;
