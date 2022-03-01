@@ -33,6 +33,16 @@ public class Game {
     public static final int RECTANGLE_CAPTURE = 2;
     public static final int LINE_CAPTURE = 3;
 
+    // class to serialize parameters
+    private static class Parameters implements Serializable {
+        // added rounds for now. Might not be needed
+        private int rounds = 0;
+        private int remainingRounds = 0;
+        private int turn = 1;
+        private int capture = 1;
+        private float x = 0;
+        private float y = 0;
+    }
     private Parameters params;
     private Player player1;
     private Player player2;
@@ -91,7 +101,7 @@ public class Game {
     public int getGameState() {
 
         // check if collectibles are all captured
-        if (params.remainingRounds == 0 || allCollectiblesCaptured()) {
+        if (params.remainingRounds <= 0 || allCollectiblesCaptured()) {
             return GAME_OVER;
         }
         else {
@@ -163,7 +173,7 @@ public class Game {
     }
 
     public void setCapture(int capture) {
-        if (capture < 4 && capture > 0) {
+        if (capture < CaptureActivity.CaptureType.values().length && capture >= 0) {
             params.capture = capture;
         }
     }
@@ -172,19 +182,52 @@ public class Game {
         return collectibles;
     }
 
-    // capture functions still need to be finished with capture class and collectible class
-    // Returns whether a collectible was captured by rectangle
-    // update to take capture class
-    public void rectangleCaptured() {
-        // rectangle probability varies based on the scale
+    /**
+     * This function determines whether each collectible in collectibles
+     * should be collected based on the current capture shape's probability
+     * of collection. It then removes them from the list
+     */
+    public void captureCollectibles() {
+        ArrayList<Collectible> capturedCollectibles = new ArrayList<>();
+        // for every collectible in collectibles
+        for (int colIndex = 0; colIndex < getCollectibles().size(); colIndex++) {
+            // if the collectible overlaps with the capture shape
+            Collectible col = getCollectibles().get(colIndex);
+            if (getCapture().collisionTest(col) && random.nextFloat() < getCapture().getChance()) {
+                // add it to the list of overlapping collectibles, given the collection chance
+                capturedCollectibles.add(col);
+            }
+        }
+        // remove the captured collectibles from collectibles
+        getCollectibles().removeAll(capturedCollectibles);
+        // get the player whose turn it is
+        Player currentPlayer;
+        if (getPlayerTurn() == 1) {
+            currentPlayer = getPlayer1();
+        } else {
+            currentPlayer = getPlayer2();
+        }
+        // increase the current player's score by the number of collectibles captured
+        currentPlayer.scored(capturedCollectibles.size());
     }
 
-    public void circleCaptured() {
-
+    /**
+     * Advances to the next players turn, unless both players have already
+     * played, in which case the next round will begin
+     */
+    public void advanceTurn() {
+        params.turn++;
+        if (params.turn > 2) {
+            advanceRound();
+        }
     }
 
-    public void lineCaptured() {
-
+    /**
+     * Begins the next round
+     */
+    public void advanceRound() {
+        params.remainingRounds--;
+        params.turn = 1;
     }
 
     private boolean allCollectiblesCaptured() {
@@ -242,31 +285,19 @@ public class Game {
          * Drawing Test Capture Circle. Need To Decide When/Where to make this call
          * */
         //circleCapture.draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
-        rectangleCapture.draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
+        getCapture().draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
         //lineCapture.draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
 
     }
 
     public boolean onTouchEvent(View gameView, MotionEvent event) {
-        //return circleCapture.onTouchEvent(gameView,event, marginLeft, marginTop, imageScale);
-        return rectangleCapture.onTouchEvent(gameView,event, marginLeft, marginTop, imageScale);
-        //return lineCapture.onTouchEvent(gameView,event, marginLeft, marginTop, imageScale);
+        return getCapture().onTouchEvent(gameView,event, marginLeft, marginTop, imageScale);
     }
 
     public void setGameView(GameView gameView) {
         this.gameView = gameView;
     }
 
-    // class to serialize parameters
-    private static class Parameters implements Serializable {
-        // added rounds for now. Might not be needed
-        private int rounds = 0;
-        private int remainingRounds = 0;
-        private int turn = 1;
-        private int capture = 1;
-        private float x = 0;
-        private float y = 0;
-    }
 
     public void saveGameState(Bundle bundle) {
         bundle.putSerializable(GAME_PARAMS, params);

@@ -8,7 +8,14 @@ import android.view.View;
 
 public class CaptureActivity extends AppCompatActivity {
 
-    private String captureType = "";
+    public enum CaptureType {
+        RECTANGLE,
+        CIRCLE,
+        LINE
+    }
+
+    private CaptureType captureType;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,17 +24,17 @@ public class CaptureActivity extends AppCompatActivity {
     }
 
     public void onRectClick(View view) {
-        captureType = "RECTANGLE";
+        captureType = CaptureType.RECTANGLE;
         close();
     }
 
     public void onCircleClick(View view) {
-        captureType = "CIRCLE";
+        captureType = CaptureType.CIRCLE;
         close();
     }
 
     public void onLineClick(View view) {
-        captureType = "LINE";
+        captureType = CaptureType.LINE;
         close();
     }
 

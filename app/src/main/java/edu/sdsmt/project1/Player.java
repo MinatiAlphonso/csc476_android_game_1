@@ -30,6 +30,14 @@ public class Player {
         params.score += 1;
     }
 
+    /**
+     * increases the player's score by a given amount
+     * @param points: int - the amount by which to increase the player's score
+     */
+    public void scored(int points) {
+        params.score += points;
+    }
+
     public void setX(float x) {
         params.x = x;
     }
