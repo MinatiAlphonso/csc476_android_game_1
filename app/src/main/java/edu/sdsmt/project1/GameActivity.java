@@ -92,8 +92,9 @@ public class GameActivity extends AppCompatActivity {
         // disable the capture button
         isCaptureEnabled = false;
         Capture.setEnabled(isCaptureEnabled);
-        game.captureCollectibles();
+//        game.captureCollectibles();
         game.advanceTurn();
+        showGameStateInfo();
         if (game.getGameState() == Game.GAME_OVER) {
             // open end activity
             Log.d("GAME_STATE", "Game Over");
