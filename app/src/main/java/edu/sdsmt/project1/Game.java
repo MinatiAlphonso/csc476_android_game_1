@@ -82,6 +82,7 @@ public class Game {
         rectangleCapture = new Capture(context, R.drawable.rectangle);
         circleCapture = new Capture(context, R.drawable.circle);
         lineCapture = new Capture(context, R.drawable.line);
+
         addCollectibleToList(context);
 
         shuffle();
@@ -89,7 +90,8 @@ public class Game {
 
     public void addCollectibleToList(Context context){
         for(int i = 0; i < numCollectibles; i++) {
-            collectibles.add(new Collectible(context, R.drawable.collectible));
+            // added background image dimensions so that the get x and y functions can return absolute location for collisions
+            collectibles.add(new Collectible(context, R.drawable.collectible, backgroundBitmap.getWidth(), backgroundBitmap.getHeight()));
         }
     }
     public  void shuffle(){
@@ -271,6 +273,11 @@ public class Game {
         // Determine the top and left margins to center
         marginLeft = (wid - iWid) / 2.0f;
         marginTop = (hit - iHit) / 2.0f;
+        // set the collectibles so that the get x and y functions return absolute position for collision bounds
+        for (Collectible collect : collectibles) {
+            collect.setImageScale(imageScale);
+        }
+
 
         /**
          * Draw the Space Background
