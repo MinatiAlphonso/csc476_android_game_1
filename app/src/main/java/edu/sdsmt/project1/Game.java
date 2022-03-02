@@ -29,9 +29,9 @@ public class Game {
     public static final int PLAYER2_TURN = 2;
     public static final int GAME_OVER = -1;
     public static final int GAME_PLAYING = 0;
+    public static final int RECTANGLE_CAPTURE = 0;
     public static final int CIRCLE_CAPTURE = 1;
-    public static final int RECTANGLE_CAPTURE = 2;
-    public static final int LINE_CAPTURE = 3;
+    public static final int LINE_CAPTURE = 2;
 
     // class to serialize parameters
     private static class Parameters implements Serializable {
@@ -39,7 +39,7 @@ public class Game {
         private int rounds = 0;
         private int remainingRounds = 0;
         private int turn = 1;
-        private int capture = 1;
+        private int capture = -1;//default is no capture option selected
         private float x = 0;
         private float y = 0;
     }
@@ -60,8 +60,8 @@ public class Game {
     private static final String GAME_PARAMS = "edu.sdsmt.project1.gameparams";
     private static final String PLAYER1_PARAMS = "edu.sdsmt.project1.player1params";
     private static final String PLAYER2_PARAMS = "edu.sdsmt.project1.player2params";
-    private static final String CIRCLE_PARAMS = "edu.sdsmt.project1.circleparams";
     private static final String RECTANGLE_PARAMS = "edu.sdsmt.project1.rectangleparams";
+    private static final String CIRCLE_PARAMS = "edu.sdsmt.project1.circleparams";
     private static final String LINE_PARAMS = "edu.sdsmt.project1.lineparams";
 
     private static final String COLLECTIBLE_PARAMS = "edu.sdsmt.project1.captureparams";
@@ -79,8 +79,8 @@ public class Game {
         collectibles = new ArrayList<>();
 
         // initialization for captures and collectibles.
-        circleCapture = new Capture(context, R.drawable.circle); // using player image for testing
         rectangleCapture = new Capture(context, R.drawable.rectangle);
+        circleCapture = new Capture(context, R.drawable.circle);
         lineCapture = new Capture(context, R.drawable.line);
         addCollectibleToList(context);
 
@@ -159,21 +159,29 @@ public class Game {
     public Capture getCapture() {
 
         switch (params.capture) {
-            case CIRCLE_CAPTURE:
-                return circleCapture;
-
             case RECTANGLE_CAPTURE:
                 return rectangleCapture;
+
+            case CIRCLE_CAPTURE:
+                return circleCapture;
 
             case LINE_CAPTURE:
                 return lineCapture;
         }
 
-        return circleCapture;
+        return null; // there shouldn't be a default capture
     }
 
+    /**
+     * This function sets the capture option for the current turn.
+     * -1 means that capture option has not been selected.
+     * 0 refers to the rectangle capture
+     * 1 refers to the circle capture
+     * 2 refers to the line capture
+     * @param capture
+     */
     public void setCapture(int capture) {
-        if (capture < CaptureActivity.CaptureType.values().length && capture >= 0) {
+        if (capture >= -1 && capture < CaptureActivity.CaptureType.values().length) {
             params.capture = capture;
         }
     }
@@ -241,11 +249,8 @@ public class Game {
 
     public void draw(Canvas canvas) {
         /**
-         * Draw Background
+         * Calculations
          */
-        if(backgroundBitmap == null) {
-            return;
-        }
 
         float wid = canvas.getWidth();
         float hit = canvas.getHeight();
@@ -258,6 +263,7 @@ public class Game {
         // Use the lesser of the two
         imageScale = scaleH < scaleV ? scaleH : scaleV;
         imageScale *= SCALE_IN_VIEW;
+
         // What is the scaled image size?
         float iWid = imageScale * backgroundBitmap.getWidth();
         float iHit = imageScale * backgroundBitmap.getHeight();
@@ -266,32 +272,46 @@ public class Game {
         marginLeft = (wid - iWid) / 2.0f;
         marginTop = (hit - iHit) / 2.0f;
 
-        // And draw the bitmap
+        /**
+         * Draw the Space Background
+         */
+        if(backgroundBitmap != null) {
+            drawBackground(canvas,marginLeft,marginTop,imageScale);
+        }
+
+        /**
+         * Draw Collectibles
+         * */
+        for(Collectible collect : collectibles){
+            if(collect != null){
+                collect.draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
+            }
+        }
+
+        /**
+         * Drawing the Capture Option
+         * */
+        if(params.capture != -1) {
+            if(getCapture() != null){
+                getCapture().draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
+            }
+        }
+
+    }
+
+    public void drawBackground(Canvas canvas, float marginLeft, float marginTop, float imageScale){
         canvas.save();
         canvas.translate(marginLeft,  marginTop);
         canvas.scale(imageScale, imageScale);
         canvas.drawBitmap(backgroundBitmap, 0,0, null);
         canvas.restore();
-        // x range would be from marginLeft to marginLeft+imgWidth*imageScale
-        // y range would be from marginTop to marginTop+imgHeight*imageScale
-        /**
-         * Draw Collectibles
-         * */
-        for(Collectible collect : collectibles){
-            collect.draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
-        }
-
-        /**
-         * Drawing Test Capture Circle. Need To Decide When/Where to make this call
-         * */
-        //circleCapture.draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
-        getCapture().draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
-        //lineCapture.draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
-
     }
 
     public boolean onTouchEvent(View gameView, MotionEvent event) {
-        return getCapture().onTouchEvent(gameView,event, marginLeft, marginTop, imageScale);
+        if(getCapture() != null) {
+            return getCapture().onTouchEvent(gameView, event, marginLeft, marginTop, imageScale);
+        }
+        return false;
     }
 
     public void setGameView(GameView gameView) {

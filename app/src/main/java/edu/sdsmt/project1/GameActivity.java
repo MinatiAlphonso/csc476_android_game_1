@@ -25,7 +25,6 @@ public class GameActivity extends AppCompatActivity {
     private GameView gameView = null;
 
     private Game game;
-    private Boolean isCaptureEnabled = false;
 
     //tag to identify information being passed to THIS activity
     public static final String PLAYER1_NAME = "edu.sdsmt.project1.PLAYER1_NAME";
@@ -60,7 +59,7 @@ public class GameActivity extends AppCompatActivity {
 
         showGameStateInfo();
 
-        Capture.setEnabled(isCaptureEnabled);
+        Capture.setEnabled(false);
 
         //Info from CaptureActivity
         ActivityResultContracts.StartActivityForResult contract =
@@ -82,16 +81,18 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void onSelectCaptureOption(View view){
-        isCaptureEnabled = true;
-        Capture.setEnabled(isCaptureEnabled);
+        Capture.setEnabled(true);
         Intent intent = new Intent(this, CaptureActivity.class);
         captureResultLauncher.launch(intent);
     }
 
     public void onCapture(View view){
-        // disable the capture button
-        isCaptureEnabled = false;
-        Capture.setEnabled(isCaptureEnabled);
+        Capture.setEnabled(false);
+        //reset the capture option
+        game.setCapture(-1);
+        //redraw the view
+        gameView.invalidate();
+
         game.captureCollectibles();
         game.advanceTurn();
         if (game.getGameState() == Game.GAME_OVER) {
