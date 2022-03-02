@@ -14,7 +14,7 @@ public class CaptureActivity extends AppCompatActivity {
         LINE
     }
 
-    private CaptureType captureType;
+    private int captureType;
 
 
     @Override
@@ -24,17 +24,17 @@ public class CaptureActivity extends AppCompatActivity {
     }
 
     public void onRectClick(View view) {
-        captureType = CaptureType.RECTANGLE;
+        captureType = CaptureType.RECTANGLE.ordinal();
         close();
     }
 
     public void onCircleClick(View view) {
-        captureType = CaptureType.CIRCLE;
+        captureType = CaptureType.CIRCLE.ordinal();
         close();
     }
 
     public void onLineClick(View view) {
-        captureType = CaptureType.LINE;
+        captureType = CaptureType.LINE.ordinal();
         close();
     }
 
