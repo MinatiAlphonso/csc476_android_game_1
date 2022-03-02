@@ -2,6 +2,7 @@ package edu.sdsmt.project1;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -12,30 +13,33 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 public class GameActivity extends AppCompatActivity {
+
+    //tag to identify information being passed to THIS activity
+    public final static String PLAYER1_NAME = "edu.sdsmt.project1.PLAYER1_NAME";
+    public final static String PLAYER2_NAME = "edu.sdsmt.project1.PLAYER2_NAME";
+    public final static String ROUND_COUNT = "edu.sdsmt.project1.ROUND_COUNT";
+
+    //gets the capture information back from the captureActivity
+    public final static String RETURN_CAPTURE_MESSAGE = "edu.sdsmt.project1.RETURN_CAPTURE_MESSAGE";
 
     private TextView Player1Name = null;
     private TextView Player2Name = null;
     private TextView RoundCount = null;
     private TextView Turn = null;
-    private Button SelectCaptureOption = null;
     private Button Capture = null;
     private GameView gameView = null;
 
     private Game game;
 
-    //tag to identify information being passed to THIS activity
-    public static final String PLAYER1_NAME = "edu.sdsmt.project1.PLAYER1_NAME";
-    public static final String PLAYER2_NAME = "edu.sdsmt.project1.PLAYER2_NAME";
-    public static final String ROUND_COUNT = "edu.sdsmt.project1.ROUND_COUNT";
-
-    //gets the capture information back from the captureActivity
-    public final static String RETURN_CAPTURE_MESSAGE = "edu.sdsmt.project1.RETURN_CAPTURE_MESSAGE";
-
     //activity launcher for captureActivity
     ActivityResultLauncher<Intent> captureResultLauncher;
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle bundle){
+        super.onSaveInstanceState(bundle);
+        gameView.saveGameState(bundle);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +50,6 @@ public class GameActivity extends AppCompatActivity {
         Player2Name = (TextView) findViewById(R.id.textViewPlayer2Name);
         RoundCount = (TextView) findViewById(R.id.textViewRoundCount);
         Turn = (TextView) findViewById(R.id.textViewTurn);
-        SelectCaptureOption = (Button) findViewById(R.id.buttonSelectCaptureOption);
         Capture = (Button) findViewById(R.id.buttonCapture);
         gameView = (GameView) findViewById(R.id.gameView);
 
@@ -71,6 +74,13 @@ public class GameActivity extends AppCompatActivity {
                         Intent data = result.getData();
                         game.setCapture(data.getIntExtra(RETURN_CAPTURE_MESSAGE, -1));
                     }});
+
+        /**
+         * Restore Game State
+         */
+        if(savedInstanceState != null){
+            gameView.restoreGameState(savedInstanceState);
+        }
     }
 
     private void showGameStateInfo() {
@@ -101,9 +111,5 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    /*protected void onSaveInstanceState(Bundle bundle){
-        super.onSaveInstanceState(bundle);
 
-        gameView.saveGameState(bundle);
-    }*/
 }

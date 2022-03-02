@@ -12,10 +12,10 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import java.io.Serializable;
+
 public class GameView extends View {
-
     private Game game;
-
 
     public GameView(Context context) {
         super(context);
@@ -54,11 +54,12 @@ public class GameView extends View {
         return game;
     }
 
-    /*public void saveGameState(Bundle bundle){
+    public void saveGameState(Bundle bundle){
         game.saveGameState(bundle);
     }
 
     public void restoreGameState(Bundle bundle){
         game.restoreGameState(bundle);
-    }*/
+    }
+
 }
