@@ -113,11 +113,11 @@ public class GameActivity extends AppCompatActivity {
     public void onCapture(View view){
         isCaptureEnabled = false;
         Capture.setEnabled(isCaptureEnabled);
+        game.captureCollectibles(); //this is causing the game to either crash or move to the start screen
+        game.advanceTurn();
+
         //reset the capture option
         game.setCapture(-1);
-
-        //game.captureCollectibles(); //this is causing the game to either crash or move to the start screen
-        game.advanceTurn();
 
         //redraw the view
         gameView.invalidate();
