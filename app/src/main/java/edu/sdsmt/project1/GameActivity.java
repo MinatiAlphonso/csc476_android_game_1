@@ -58,6 +58,10 @@ public class GameActivity extends AppCompatActivity {
 
     private void updateUI(){
         Capture.setEnabled(isCaptureEnabled);
+        Player1Name.setText(String.format("%s%s", getString(R.string.player1_text),game.getPlayer1().getName()));
+        Player2Name.setText(String.format("%s%s", getString(R.string.player2_text),game.getPlayer2().getName()));
+        RoundCount.setText(String.format("%s%s%s%s", getString(R.string.round_text), game.getRound(),"/",game.getTotalRounds()));
+        Turn.setText(String.format("%s%s%s",getString(R.string.turn_text),"Player ",game.getPlayerTurn()));
     }
 
     @Override
@@ -77,8 +81,6 @@ public class GameActivity extends AppCompatActivity {
         Intent intent = getIntent();
         game.setPlayersNames(intent.getStringExtra(PLAYER1_NAME),intent.getStringExtra(PLAYER2_NAME));
         game.setRounds(intent.getIntExtra(ROUND_COUNT,0));
-
-        showGameStateInfo();
 
         //Info from CaptureActivity
         ActivityResultContracts.StartActivityForResult contract =
@@ -101,13 +103,6 @@ public class GameActivity extends AppCompatActivity {
         updateUI();
     }
 
-    private void showGameStateInfo() {
-        Player1Name.setText(String.format("%s%s", getString(R.string.player1_text),game.getPlayer1().getName()));
-        Player2Name.setText(String.format("%s%s", getString(R.string.player2_text),game.getPlayer2().getName()));
-        RoundCount.setText(String.format("%s%s%s%s", getString(R.string.round_text), game.getRound(),"/",game.getTotalRounds()));
-        Turn.setText(String.format("%s%s%s",getString(R.string.turn_text),"Player ",game.getPlayerTurn()));
-    }
-
     public void onSelectCaptureOption(View view){
         isCaptureEnabled = true;
         Capture.setEnabled(isCaptureEnabled);
@@ -120,11 +115,13 @@ public class GameActivity extends AppCompatActivity {
         Capture.setEnabled(isCaptureEnabled);
         //reset the capture option
         game.setCapture(-1);
+
+        //game.captureCollectibles(); //this is causing the game to either crash or move to the start screen
+        game.advanceTurn();
+
         //redraw the view
         gameView.invalidate();
-
-        game.captureCollectibles();
-        game.advanceTurn();
+        updateUI();
         if (game.getGameState() == Game.GAME_OVER) {
             // open end activity
             Log.d("GAME_STATE", "Game Over");
