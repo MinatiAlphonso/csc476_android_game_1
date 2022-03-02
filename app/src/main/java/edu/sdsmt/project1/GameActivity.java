@@ -32,13 +32,32 @@ public class GameActivity extends AppCompatActivity {
 
     private Game game;
 
+    private Boolean isCaptureEnabled = false;
+
     //activity launcher for captureActivity
     ActivityResultLauncher<Intent> captureResultLauncher;
+
+    private static final String IS_CAPTURE_ENABLED = "isCaptureEnabled";
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle bundle){
         super.onSaveInstanceState(bundle);
+
+        bundle.putBoolean(IS_CAPTURE_ENABLED, isCaptureEnabled);
+
         gameView.saveGameState(bundle);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle bundle) {
+        super.onRestoreInstanceState(bundle);
+
+        isCaptureEnabled = bundle.getBoolean(IS_CAPTURE_ENABLED);
+        updateUI();
+    }
+
+    private void updateUI(){
+        Capture.setEnabled(isCaptureEnabled);
     }
 
     @Override
@@ -59,10 +78,7 @@ public class GameActivity extends AppCompatActivity {
         game.setPlayersNames(intent.getStringExtra(PLAYER1_NAME),intent.getStringExtra(PLAYER2_NAME));
         game.setRounds(intent.getIntExtra(ROUND_COUNT,0));
 
-
         showGameStateInfo();
-
-        Capture.setEnabled(false);
 
         //Info from CaptureActivity
         ActivityResultContracts.StartActivityForResult contract =
@@ -81,6 +97,8 @@ public class GameActivity extends AppCompatActivity {
         if(savedInstanceState != null){
             gameView.restoreGameState(savedInstanceState);
         }
+
+        updateUI();
     }
 
     private void showGameStateInfo() {
@@ -91,13 +109,15 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void onSelectCaptureOption(View view){
-        Capture.setEnabled(true);
+        isCaptureEnabled = true;
+        Capture.setEnabled(isCaptureEnabled);
         Intent intent = new Intent(this, CaptureActivity.class);
         captureResultLauncher.launch(intent);
     }
 
     public void onCapture(View view){
-        Capture.setEnabled(false);
+        isCaptureEnabled = false;
+        Capture.setEnabled(isCaptureEnabled);
         //reset the capture option
         game.setCapture(-1);
         //redraw the view
