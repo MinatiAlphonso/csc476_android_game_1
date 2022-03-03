@@ -185,6 +185,15 @@ public class Capture {
         return params.scale;
     }
 
+    /**
+     * Draw the selected Capture option
+     * @param canvas
+     * @param marginLeft
+     * @param marginTop
+     * @param imageScale
+     * @param width
+     * @param height
+     */
     public void draw(Canvas canvas, float marginLeft, float marginTop, float imageScale, int width, int height) {
         canvas.save();
         canvas.translate(marginLeft+params.x, marginTop+params.y);
@@ -194,8 +203,6 @@ public class Capture {
         canvas.translate(-captureBitmap.getWidth() / 2f, -captureBitmap.getHeight() / 2f);
         canvas.drawBitmap(captureBitmap,0,0,null);
         canvas.restore();
-
-
     }
 
     public boolean onTouchEvent(View gameView, MotionEvent event, float marginLeft, float marginTop, float imageScale) {
@@ -294,12 +301,8 @@ public class Capture {
             // At least one touch
             // We are moving
             touch1.computeDeltas();
-            Log.i("X1", String.valueOf(params.x));
-            Log.i("Y1", String.valueOf(params.y));
             params.x += touch1.dX;
             params.y += touch1.dY;
-            Log.i("X2", String.valueOf(params.x));
-            Log.i("Y2", String.valueOf(params.y));
         }
         if(touch2.id >= 0) {
             // Two touches
@@ -343,7 +346,7 @@ public class Capture {
     }
 
     /**
-     * Rotate the image around the point x1, y1
+     * Scale the image
      *
      * @param scale percentage to scale
      * @param x1    scale point x
@@ -352,11 +355,11 @@ public class Capture {
     public void scale(float scale, float x1, float y1) {
         params.scale *= scale;
 
-        // Compute a vector to hatX, hatY
+        // Compute a vector to x, y
         float dx = params.x - x1;
         float dy = params.y - y1;
 
-        // Compute scaled hatX, hatY
+        // Compute scaled x, y
         params.x = x1 + dx * scale;
         params.y = y1 + dy * scale;
     }
