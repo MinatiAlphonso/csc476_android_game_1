@@ -54,6 +54,7 @@ public class GameActivity extends AppCompatActivity {
 
         isCaptureEnabled = bundle.getBoolean(IS_CAPTURE_ENABLED);
         updateUI();
+        gameView.restoreGameState(bundle);
     }
 
     private void updateUI(){

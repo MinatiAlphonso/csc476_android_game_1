@@ -45,6 +45,7 @@ public class Capture {
         captureBitmap = BitmapFactory.decodeResource(context.getResources(), id);
         rect = new Rect();
         params = new Parameters();
+        params.id = id;
         setRect();
     }
 
@@ -79,6 +80,10 @@ public class Capture {
 
     public void setScale(float scale) {
         params.scale = scale;
+    }
+
+    public void setAngle(float angle) {
+        params.angle = angle;
     }
 
     public boolean hit(float testX, float testY) {
@@ -175,6 +180,7 @@ public class Capture {
         return captureBitmap;
     }
 
+    public void setID(int id){params.id = id;}
     public void setX(float X){params.x = X;}
     public void setY(float Y){params.y = Y;}
     public float getX() {
@@ -405,6 +411,7 @@ public class Capture {
         public float scale = 0.5f;
         public float angle = 0;
         public boolean scalable = true;
+        public int id = -1;
     }
     /**
      * Local class to handle the touch status for one touch.

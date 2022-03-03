@@ -24,6 +24,7 @@ public class Game {
     private float marginLeft;
     private float marginTop;
     private int numCollectibles = 15;
+
     // Public variables to reference
     public static final int PLAYER1_TURN = 1;
     public static final int PLAYER2_TURN = 2;
@@ -40,9 +41,9 @@ public class Game {
         private int remainingRounds = 0;
         private int turn = 1;
         private int capture = -1;//default is no capture option selected
-        private Capture selectedCapture = null;//default is no capture option selected
         private float x = 0;
         private float y = 0;
+        private Capture selectedCapture = null;//default is no capture option selected
     }
     private Parameters params;
     private Player player1;
@@ -61,6 +62,7 @@ public class Game {
     private static final String GAME_PARAMS = "edu.sdsmt.project1.gameparams";
     private static final String PLAYER1_PARAMS = "edu.sdsmt.project1.player1params";
     private static final String PLAYER2_PARAMS = "edu.sdsmt.project1.player2params";
+    private static final String SELECTED_CAPTURE = "edu.sdsmt.project1.SELECTED_CAPTURE";
     private static final String RECTANGLE_PARAMS = "edu.sdsmt.project1.rectangleparams";
     private static final String CIRCLE_PARAMS = "edu.sdsmt.project1.circleparams";
     private static final String LINE_PARAMS = "edu.sdsmt.project1.lineparams";
@@ -165,18 +167,12 @@ public class Game {
 
     public Capture getCapture() {
 
-        switch (params.capture) {
-            case RECTANGLE_CAPTURE:
-                return rectangleCapture;
+        return params.selectedCapture;
+    }
 
-            case CIRCLE_CAPTURE:
-                return circleCapture;
 
-            case LINE_CAPTURE:
-                return lineCapture;
-        }
-
-        return null; // there shouldn't be a default capture
+    private void setSelectedCaptureObject(Capture selectedCapture) {
+        params.selectedCapture = selectedCapture;
     }
 
     /**
@@ -190,7 +186,38 @@ public class Game {
     public void setCapture(int capture) {
         if (capture >= -1 && capture < CaptureActivity.CaptureType.values().length) {
             params.capture = capture;
-            params.selectedCapture = getCapture();
+            Boolean needsReset = true;
+            float tempX = 0, tempY = 0, tempScale = 0.5f, tempAngle = 0;
+            if(params.selectedCapture != null){
+                needsReset = false;
+                tempX = params.selectedCapture.getX();
+                tempY = params.selectedCapture.getY();
+            }
+            switch (params.capture) {
+                case RECTANGLE_CAPTURE:
+                    params.selectedCapture = rectangleCapture;
+                    break;
+
+                case CIRCLE_CAPTURE:
+                    params.selectedCapture = circleCapture;
+                    break;
+
+                case LINE_CAPTURE:
+                    params.selectedCapture = lineCapture;
+                    tempScale = 1f;
+                    break;
+
+                default:
+                    params.selectedCapture = null;
+            }
+            if(params.selectedCapture != null){
+                params.selectedCapture.setX(tempX);
+                params.selectedCapture.setY(tempY);
+            }
+            if(needsReset){
+                params.selectedCapture.setScale(tempScale);
+                params.selectedCapture.setAngle(tempAngle);
+            }
         }
     }
 
@@ -304,13 +331,9 @@ public class Game {
         /**
          * Drawing the Capture Option
          * */
-        if(params.capture != -1) {
-            if(getCapture() != null){
 
-                getCapture().setX(params.x);
-                getCapture().setY(params.y);
-                getCapture().draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
-            }
+        if(params.selectedCapture != null){
+            params.selectedCapture.draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
         }
 
     }
@@ -325,7 +348,7 @@ public class Game {
 
     public boolean onTouchEvent(View gameView, MotionEvent event) {
         if(getCapture() != null) {
-            return getCapture().onTouchEvent(gameView, event, marginLeft, marginTop, imageScale);
+            return params.selectedCapture.onTouchEvent(gameView, event, marginLeft, marginTop, imageScale);
         }
         return false;
     }
@@ -339,8 +362,6 @@ public class Game {
         bundle.putSerializable(GAME_PARAMS, params);
         player1.savePlayer(PLAYER1_PARAMS, bundle);
         player2.savePlayer(PLAYER2_PARAMS, bundle);
-
-        circleCapture.saveCaptureState(CIRCLE_PARAMS, bundle);
         int i = 0;
         for (Collectible collect : collectibles) {
             collect.saveCollectibleState(COLLECTIBLE_PARAMS + i, bundle);
@@ -352,13 +373,12 @@ public class Game {
         params = (Parameters)bundle.getSerializable(GAME_PARAMS);
         player1.restorePlayer(PLAYER1_PARAMS, bundle);
         player2.restorePlayer(PLAYER2_PARAMS, bundle);
-
-        circleCapture.loadCaptureState(CIRCLE_PARAMS, bundle);
+        setSelectedCaptureObject(params.selectedCapture);//save the capture object instance
         int i = 0;
         for (Collectible collect : collectibles) {
             collect.loadCollectibleState(COLLECTIBLE_PARAMS + i, bundle);
             i++;
         }
-
     }
+
 }
