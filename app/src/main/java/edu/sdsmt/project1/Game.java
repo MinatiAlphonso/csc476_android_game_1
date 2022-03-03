@@ -14,9 +14,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Game {
-
-
-
     private Bitmap backgroundBitmap = null;
     private GameView gameView;
     private float imageScale;
@@ -43,13 +40,13 @@ public class Game {
         private int capture = -1;//default is no capture option selected
         private float x = 0;
         private float y = 0;
-        private Capture selectedCapture = null;//default is no capture option selected
     }
     private Parameters params;
     private Player player1;
     private Player player2;
     private Random random;
 
+    private Capture selectedCapture = null;//default is no capture option selected
     // finish Capture in game class
     private Capture circleCapture;
     private Capture rectangleCapture;
@@ -166,13 +163,12 @@ public class Game {
     }
 
     public Capture getCapture() {
-
-        return params.selectedCapture;
+        return selectedCapture;
     }
 
 
     private void setSelectedCaptureObject(Capture selectedCapture) {
-        params.selectedCapture = selectedCapture;
+        selectedCapture = selectedCapture;
     }
 
     /**
@@ -188,35 +184,35 @@ public class Game {
             params.capture = capture;
             Boolean needsReset = true;
             float tempX = 0, tempY = 0, tempScale = 0.5f, tempAngle = 0;
-            if(params.selectedCapture != null){
+            if(selectedCapture != null){
                 needsReset = false;
-                tempX = params.selectedCapture.getX();
-                tempY = params.selectedCapture.getY();
+                tempX = selectedCapture.getX();
+                tempY = selectedCapture.getY();
             }
             switch (params.capture) {
                 case RECTANGLE_CAPTURE:
-                    params.selectedCapture = rectangleCapture;
+                    selectedCapture = rectangleCapture;
                     break;
 
                 case CIRCLE_CAPTURE:
-                    params.selectedCapture = circleCapture;
+                    selectedCapture = circleCapture;
                     break;
 
                 case LINE_CAPTURE:
-                    params.selectedCapture = lineCapture;
+                    selectedCapture = lineCapture;
                     tempScale = 1f;
                     break;
 
                 default:
-                    params.selectedCapture = null;
+                    selectedCapture = null;
             }
-            if(params.selectedCapture != null){
-                params.selectedCapture.setX(tempX);
-                params.selectedCapture.setY(tempY);
+            if(selectedCapture != null){
+                selectedCapture.setX(tempX);
+                selectedCapture.setY(tempY);
             }
             if(needsReset){
-                params.selectedCapture.setScale(tempScale);
-                params.selectedCapture.setAngle(tempAngle);
+                selectedCapture.setScale(tempScale);
+                selectedCapture.setAngle(tempAngle);
             }
         }
     }
@@ -332,8 +328,8 @@ public class Game {
          * Drawing the Capture Option
          * */
 
-        if(params.selectedCapture != null){
-            params.selectedCapture.draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
+        if(selectedCapture != null){
+            selectedCapture.draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
         }
 
     }
@@ -348,7 +344,7 @@ public class Game {
 
     public boolean onTouchEvent(View gameView, MotionEvent event) {
         if(getCapture() != null) {
-            return params.selectedCapture.onTouchEvent(gameView, event, marginLeft, marginTop, imageScale);
+            return selectedCapture.onTouchEvent(gameView, event, marginLeft, marginTop, imageScale);
         }
         return false;
     }
@@ -373,10 +369,14 @@ public class Game {
         params = (Parameters)bundle.getSerializable(GAME_PARAMS);
         player1.restorePlayer(PLAYER1_PARAMS, bundle);
         player2.restorePlayer(PLAYER2_PARAMS, bundle);
-        setSelectedCaptureObject(params.selectedCapture);//save the capture object instance
+
+        //setSelectedCaptureObject(params.selectedCapture);//save the capture object instance
+
         int i = 0;
         for (Collectible collect : collectibles) {
-            collect.loadCollectibleState(COLLECTIBLE_PARAMS + i, bundle);
+            //if(collect != null) {
+                collect.loadCollectibleState(COLLECTIBLE_PARAMS + i, bundle);
+            //}
             i++;
         }
     }
