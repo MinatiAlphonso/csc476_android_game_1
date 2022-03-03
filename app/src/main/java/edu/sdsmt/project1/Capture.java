@@ -73,8 +73,13 @@ public class Capture {
         rect.set(locX, locY, endX, endY);
     }
 
+    public void setScalable(boolean scalable) {
+     params.scalable = scalable;
+    }
 
-
+    public void setScale(float scale) {
+        params.scale = scale;
+    }
 
     public boolean hit(float testX, float testY) {
         int pX = (int)((testX - params.x));
@@ -318,8 +323,9 @@ public class Capture {
              */
             float length1 = length(touch1.lastX, touch1.lastY, touch2.lastX, touch2.lastY);
             float length2 = length(touch1.x, touch1.y, touch2.x, touch2.y);
-            scale(length2 / length1, touch1.x, touch1.y);
-
+            if (params.scalable) {
+                scale(length2 / length1, touch1.x, touch1.y);
+            }
         }
     }
     /**
@@ -393,6 +399,7 @@ public class Capture {
         public float y = 0;
         public float scale = 0.5f;
         public float angle = 0;
+        public boolean scalable = true;
     }
     /**
      * Local class to handle the touch status for one touch.
