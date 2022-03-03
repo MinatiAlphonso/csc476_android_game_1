@@ -13,4 +13,6 @@
     <string name="player_2">Player 2</string>
     <string name="capture_option_btn_text">Select Capture Option</string>
     <string name="capture_btn_text">Capture!</string>
+    <string name="return_to_start_text">Return to start</string>
+    <string name="final_score_text">Final score:</string>
 </resources>
