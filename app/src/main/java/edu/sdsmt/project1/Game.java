@@ -83,6 +83,10 @@ public class Game {
         circleCapture = new Capture(context, R.drawable.circle);
         lineCapture = new Capture(context, R.drawable.line);
 
+        circleCapture.setScalable(false);
+        lineCapture.setScalable(false);
+        lineCapture.setScale(1f);
+
         addCollectibleToList(context);
 
         shuffle();
