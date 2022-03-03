@@ -175,6 +175,8 @@ public class Capture {
         return captureBitmap;
     }
 
+    public void setX(float X){params.x = X;}
+    public void setY(float Y){params.y = Y;}
     public float getX() {
         return params.x;
     }

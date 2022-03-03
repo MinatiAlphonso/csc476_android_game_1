@@ -40,6 +40,7 @@ public class Game {
         private int remainingRounds = 0;
         private int turn = 1;
         private int capture = -1;//default is no capture option selected
+        private Capture selectedCapture = null;//default is no capture option selected
         private float x = 0;
         private float y = 0;
     }
@@ -189,6 +190,7 @@ public class Game {
     public void setCapture(int capture) {
         if (capture >= -1 && capture < CaptureActivity.CaptureType.values().length) {
             params.capture = capture;
+            params.selectedCapture = getCapture();
         }
     }
 
@@ -304,6 +306,9 @@ public class Game {
          * */
         if(params.capture != -1) {
             if(getCapture() != null){
+
+                getCapture().setX(params.x);
+                getCapture().setY(params.y);
                 getCapture().draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
             }
         }
