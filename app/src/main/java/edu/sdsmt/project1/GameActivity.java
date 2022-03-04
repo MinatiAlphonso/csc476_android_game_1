@@ -48,17 +48,6 @@ public class GameActivity extends AppCompatActivity {
         gameView.saveGameState(bundle);
     }
 
-    @Override
-    protected void onRestoreInstanceState(@NonNull Bundle bundle) {
-        super.onRestoreInstanceState(bundle);
-
-        isCaptureEnabled = bundle.getBoolean(IS_CAPTURE_ENABLED);
-        updateUI();
-        if(bundle != null) {
-            gameView.restoreGameState(bundle);
-        }
-    }
-
     private void updateUI(){
         Capture.setEnabled(isCaptureEnabled);
         Player1Name.setText(String.format("%s%s", getString(R.string.player1_text),game.getPlayer1().getName()));
@@ -99,10 +88,10 @@ public class GameActivity extends AppCompatActivity {
         /**
          * Restore Game State
          */
-        //if(savedInstanceState != null){
-          //  gameView.restoreGameState(savedInstanceState);
-        //}
-
+        if(savedInstanceState != null){
+            isCaptureEnabled = savedInstanceState.getBoolean(IS_CAPTURE_ENABLED);
+            gameView.restoreGameState(savedInstanceState);
+        }
         updateUI();
     }
 

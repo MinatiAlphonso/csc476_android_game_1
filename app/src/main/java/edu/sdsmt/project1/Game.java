@@ -166,11 +166,6 @@ public class Game {
         return selectedCapture;
     }
 
-
-    private void setSelectedCaptureObject(Capture selectedCapture) {
-        selectedCapture = selectedCapture;
-    }
-
     /**
      * This function sets the capture option for the current turn.
      * -1 means that capture option has not been selected.
@@ -183,17 +178,17 @@ public class Game {
         if (capture >= -1 && capture < CaptureActivity.CaptureType.values().length) {
             params.capture = capture;
             Boolean needsReset = true;
-            float tempX = 0, tempY = 0, tempScale = 0.5f, tempAngle = 0;
+            float tempX = 0, tempY = 0, tempAngle = 0;
             if(selectedCapture != null){
                 needsReset = false;
                 tempX = selectedCapture.getX();
                 tempY = selectedCapture.getY();
                 tempAngle = selectedCapture.getAngle();
-                tempScale = selectedCapture.getScale();
             }
             switch (params.capture) {
                 case RECTANGLE_CAPTURE:
                     selectedCapture = rectangleCapture;
+                    if(needsReset){selectedCapture.setScale(0.5f);}
                     break;
 
                 case CIRCLE_CAPTURE:
@@ -202,7 +197,6 @@ public class Game {
 
                 case LINE_CAPTURE:
                     selectedCapture = lineCapture;
-                    tempScale = 1f;
                     break;
 
                 default:
@@ -212,11 +206,9 @@ public class Game {
                 selectedCapture.setX(tempX);
                 selectedCapture.setY(tempY);
                 selectedCapture.setAngle(tempAngle);
-                selectedCapture.setScale(tempScale);
                 if(needsReset){
                     selectedCapture.setX(0);
                     selectedCapture.setY(0);
-                    selectedCapture.setScale(tempScale);
                     selectedCapture.setAngle(tempAngle);
                 }
             }
@@ -362,6 +354,10 @@ public class Game {
 
 
     public void saveGameState(Bundle bundle) {
+        if(selectedCapture!=null){
+            params.x = selectedCapture.getX();
+            params.y = selectedCapture.getY();
+        }
         bundle.putSerializable(GAME_PARAMS, params);
         player1.savePlayer(PLAYER1_PARAMS, bundle);
         player2.savePlayer(PLAYER2_PARAMS, bundle);
@@ -376,14 +372,14 @@ public class Game {
         params = (Parameters)bundle.getSerializable(GAME_PARAMS);
         player1.restorePlayer(PLAYER1_PARAMS, bundle);
         player2.restorePlayer(PLAYER2_PARAMS, bundle);
-
-        //setSelectedCaptureObject(params.selectedCapture);//save the capture object instance
-
+        setCapture(params.capture);
+        if(selectedCapture!=null){
+            selectedCapture.setX(params.x);
+            selectedCapture.setY(params.y);
+        }
         int i = 0;
         for (Collectible collect : collectibles) {
-            //if(collect != null) {
-                collect.loadCollectibleState(COLLECTIBLE_PARAMS + i, bundle);
-            //}
+            collect.loadCollectibleState(COLLECTIBLE_PARAMS + i, bundle);
             i++;
         }
     }
