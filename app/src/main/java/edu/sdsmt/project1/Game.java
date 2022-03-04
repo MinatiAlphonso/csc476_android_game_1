@@ -188,6 +188,8 @@ public class Game {
                 needsReset = false;
                 tempX = selectedCapture.getX();
                 tempY = selectedCapture.getY();
+                tempAngle = selectedCapture.getAngle();
+                tempScale = selectedCapture.getScale();
             }
             switch (params.capture) {
                 case RECTANGLE_CAPTURE:
@@ -209,11 +211,16 @@ public class Game {
             if(selectedCapture != null){
                 selectedCapture.setX(tempX);
                 selectedCapture.setY(tempY);
-            }
-            if(needsReset){
-                selectedCapture.setScale(tempScale);
                 selectedCapture.setAngle(tempAngle);
+                selectedCapture.setScale(tempScale);
+                if(needsReset){
+                    selectedCapture.setX(0);
+                    selectedCapture.setY(0);
+                    selectedCapture.setScale(tempScale);
+                    selectedCapture.setAngle(tempAngle);
+                }
             }
+
         }
     }
 

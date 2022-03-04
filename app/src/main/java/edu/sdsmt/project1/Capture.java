@@ -180,6 +180,7 @@ public class Capture {
         return captureBitmap;
     }
 
+    public float getAngle(){return params.angle;}
     public void setID(int id){params.id = id;}
     public void setX(float X){params.x = X;}
     public void setY(float Y){params.y = Y;}
