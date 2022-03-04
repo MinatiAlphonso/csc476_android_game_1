@@ -40,7 +40,6 @@ public class Capture {
      * Second touch status
      */
     private Touch touch2 = new Touch();
-
     public Capture(Context context, int id) {
         captureBitmap = BitmapFactory.decodeResource(context.getResources(), id);
         rect = new Rect();
@@ -58,12 +57,6 @@ public class Capture {
     public float getChance() {
         return 0.0f;//CaptureChance.rectangle;
     }
-
-    /*public void move(float dx, float dy) {
-        params.x += dx;
-        params.y += dy;
-        setRect();
-    }*/
 
     private void setRect() {
         int locX = (int)params.x;
@@ -478,6 +471,12 @@ public class Capture {
 
     public void loadCaptureState(String key, Bundle bundle) {
         params = (Parameters)bundle.getSerializable(key);
+        setX(params.x);
+        setY(params.y);
+        setScale(params.scale);
+        setScalable(params.scalable);
+        setAngle(params.angle);
+        setID(params.id);
         setRect();
     }
 }
