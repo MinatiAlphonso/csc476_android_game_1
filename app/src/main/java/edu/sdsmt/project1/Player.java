@@ -25,51 +25,12 @@ public class Player {
         return params.score;
     }
 
-    // Increment the players score when the collect a item
-    public void scored() {
-        params.score += 1;
-    }
-
     /**
      * increases the player's score by a given amount
      * @param points: int - the amount by which to increase the player's score
      */
     public void scored(int points) {
         params.score += points;
-    }
-
-    public void setX(float x) {
-        params.x = x;
-    }
-
-    public void setY(float y) {
-        params.y = y;
-    }
-
-    public void setScale(float scale) {
-        params.scale = scale;
-    }
-
-    public float getX() {
-        return params.x;
-    }
-
-    public float getY() {
-        return params.y;
-    }
-
-    public float getScale() {
-        return params.scale;
-    }
-
-    public void move(float dx, float dy) {
-        params.x += dx;
-        params.y += dy;
-    }
-
-    public void scale(float ds) {
-        // might need to be multiplied?
-        params.scale += ds;
     }
 
     public static class Parameters implements Serializable {

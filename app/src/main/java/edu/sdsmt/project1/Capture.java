@@ -43,15 +43,6 @@ public class Capture {
         setRect();
     }
 
-    public Capture(Context context, int id, float captureChance) {
-        captureBitmap = BitmapFactory.decodeResource(context.getResources(), id);
-        rect = new Rect();
-        params = new Parameters();
-        params.id = id;
-        setChance(captureChance);
-        setRect();
-    }
-
     /**
      * This function returns the chance of capturing an overlapping collectible
      * (The chance of capturing corresponds to the shape of the capture area)
@@ -91,20 +82,6 @@ public class Capture {
 
     public void setAngle(float angle) {
         params.angle = angle;
-    }
-
-    public boolean hit(float testX, float testY) {
-        int pX = (int)((testX - params.x));
-        int pY = (int)((testY - params.y));
-
-        if(pX < 0 || pX >= captureBitmap.getWidth() ||
-                pY < 0 || pY >= captureBitmap.getHeight()) {
-            return false;
-        }
-
-        // We are within the rectangle of the piece.
-        // Are we touching actual picture?
-        return (captureBitmap.getPixel(pX, pY) & 0xff000000) != 0;
     }
 
     /**
@@ -183,12 +160,7 @@ public class Capture {
         return false;
     }
 
-    public Bitmap getCollectBitmap() {
-        return captureBitmap;
-    }
-
     public float getAngle(){return params.angle;}
-    public void setID(int id){params.id = id;}
     public void setX(float X){params.x = X;}
     public void setY(float Y){params.y = Y;}
     public float getX() {
@@ -199,9 +171,6 @@ public class Capture {
         return params.y;
     }
 
-    public Rect getRect() {
-        return rect;
-    }
     public float getScale() {
         return params.scale;
     }
@@ -471,19 +440,4 @@ public class Capture {
         }
     }
 
-    public void saveCaptureState(String key, Bundle bundle) {
-        bundle.putSerializable(key, params);
-    }
-
-    public void loadCaptureState(String key, Bundle bundle) {
-        params = (Parameters)bundle.getSerializable(key);
-        setX(params.x);
-        setY(params.y);
-        setScale(params.scale);
-        setScalable(params.scalable);
-        setAngle(params.angle);
-        setID(params.id);
-        setChance(params.captureChance);
-        setRect();
-    }
 }
