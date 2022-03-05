@@ -15,4 +15,49 @@
     <string name="capture_btn_text">Capture!</string>
     <string name="return_to_start_text">Return to start</string>
     <string name="final_score_text">Final score:</string>
+    <string name="Help_paragraph"><![CDATA[
+<h2>Requirements:</h2>
+<ul>
+    <li>Only 2 players</li>
+    <li>Enter each player’s name</li>
+    <li>Enter the number of game rounds</li>
+</ul>
+<h2>Objective:</h2>
+<p>
+Zap the Asteroids in your path to gain points. The more asteroids you zap, the higher your score.
+</p>
+<h2>Components:</h2>
+<ul>
+    <li>
+        Select Capture Option button: Provides the following capture options.
+    </li>
+    <ul>
+        <li>
+            Grid Laser: Scalable, Rotatable, and Movable. The larger the grid, the lower the probability of capturing asteroids in its vicinity.
+        </li>
+        <li>
+            Radial Laser: Not scalable, but Movable. Guaranteed to capture all the asteroids it hits.
+        </li>
+        <li>
+            Line Laser: Not scalable, but Rotatable, and Movable. Has a 75% probability of capturing asteroids in its vicinity.
+        </li>
+    </ul>
+</ul>
+<ul>
+    <li>
+        Capture! button: applies the capture option to the game board.
+    </li>
+    <li>
+        Space-themed Game Board with Asteroids spread all over.
+    </li>
+    <li>
+        Back Button: reset the entire game and take the players to the welcome screen.
+    </li>
+</ul>
+<h2>How to Play:</h2>
+<p>
+    This game is played in a series of rounds (you get to decide the number of rounds). During each round, players can select a Capture option from the available three. To zap the asteroids, hit the “Capture!” button. Each player has only one opportunity to apply their capture to the asteroids per turn. The game ends when either the number of rounds specified is over or if there are no more asteroids in the game board, whichever comes first. Each asteroid you capture adds +1 to your total score, so the player who has captured the greatest number of asteroids is the winner.
+</p>
+    ]]></string>
+    <string name="help">Help</string>
 </resources>

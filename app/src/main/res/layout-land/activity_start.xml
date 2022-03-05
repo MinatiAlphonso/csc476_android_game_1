@@ -15,29 +15,29 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Player2TextInput" />
+        app:layout_constraintStart_toEndOf="@+id/Player2TextInput"
+        app:layout_constraintTop_toBottomOf="@+id/RoundsInput" />
 
     <EditText
         android:id="@+id/Player1TextInput"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:autofillHints=""
         android:ems="10"
         android:gravity="center"
         android:hint="@string/player_1"
         android:inputType="textPersonName"
         android:minHeight="48dp"
+        android:nextFocusForward="@+id/Player2TextInput"
         android:textColorHint="#757575"
-        app:layout_constraintBottom_toBottomOf="@+id/Player2TextInput"
-        app:layout_constraintEnd_toStartOf="@+id/Player2TextInput"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/Player2TextInput" />
+        app:layout_constraintBottom_toTopOf="@+id/Player2TextInput"
+        app:layout_constraintEnd_toEndOf="@+id/Player2TextInput"
+        app:layout_constraintStart_toStartOf="@+id/Player2TextInput"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/Player2TextInput"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:autofillHints=""
         android:ems="10"
@@ -45,12 +45,13 @@
         android:hint="@string/player_2"
         android:inputType="textPersonName"
         android:minHeight="48dp"
+        android:nextFocusForward="@+id/RoundsInput"
         android:textColorHint="#757575"
-        app:layout_constraintBottom_toTopOf="@+id/PlayButton"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/PlayButton"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/Player1TextInput"
-        app:layout_constraintTop_toBottomOf="@+id/RoundsInput" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Player1TextInput" />
 
     <EditText
         android:id="@+id/RoundsInput"
@@ -62,11 +63,11 @@
         android:hint="@string/number_of_rounds_to_play"
         android:inputType="number"
         android:minHeight="48dp"
+        android:nextFocusForward="@+id/PlayButton"
         android:textColorHint="#757575"
-        app:layout_constraintBottom_toTopOf="@+id/Player2TextInput"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/PlayButton"
+        app:layout_constraintEnd_toEndOf="@+id/PlayButton"
+        app:layout_constraintStart_toStartOf="@+id/PlayButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
