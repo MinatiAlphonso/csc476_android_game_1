@@ -1,18 +1,11 @@
 package edu.sdsmt.project1;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ActionBar;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Html;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
@@ -22,43 +15,36 @@ import android.widget.EditText;
 Project 1 Grading
 
 Group:
-____ 6pt No redundant activities
-____ 6pt How to play dialog
-____ 6pt Icons
-____ 6pt End activity
-____ 6pt Back button handled
+__Done__ 6pt No redundant activities
+__Done__ 6pt How to play dialog
+__Done__ 6pt Icons
+__Done__ 6pt End activity
+__Done__ 6pt Back button handled
 How to open the "how to play dialog": Click the help button on the start activity
 
 Individual:
 
 	Play activity and custom view
 
-		____ 9pt Activity appearence
-		____ 16pt Static Custom View
-		____ 20pt Dynamic part of the Custom View
-		____ 15pt Rotation
+		__Done__ 9pt Activity appearence
+		__Done__ 16pt Static Custom View
+		__Done__ 20pt Dynamic part of the Custom View
+		__Done__ 15pt Rotation
 
 	Welcome activity and Game Class
 
-		____ 13pt Welcome activity appearence
-		____ 20pt Applying capture rules
-		____ 12pt Game state
-		____ 15pt Rotation
-		What is the probaility of the reactangle capture: _____
+		__Done__ 13pt Welcome activity appearence
+		__Done__ 20pt Applying capture rules
+		__Done__ 12pt Game state
+		__Done__ 15pt Rotation
+		What is the probaility of the reactangle capture: 1 - the scale of the rectangle (starts at 0.50 scale which would be 50% capture)
 
 	Capture activity and activity sequencing
 
-		____ 9pt Capture activity apearence
-		____ 16pt Player round sequencing
-		____ 20pt Move to next activity
-		____ 15pt Rotation
-
-	Timer
-
-		____ 9pt Timer activity
-		____ 24pt Graphic
-		____ 12pt Player turn end
-		____ 15pt Rotation
+		__Done__ 9pt Capture activity apearence
+		__Done__ 16pt Player round sequencing
+		__Done__ 20pt Move to next activity
+		__Done__ 15pt Rotation
 
 
 Please list any additional rules that may be needed to properly grade your project:

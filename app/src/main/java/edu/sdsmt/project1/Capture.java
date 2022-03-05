@@ -4,13 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Rect;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -40,7 +35,6 @@ public class Capture {
         captureBitmap = BitmapFactory.decodeResource(context.getResources(), id);
         rect = new Rect();
         params = new Parameters();
-        params.id = id;
         setRect();
     }
 
@@ -105,7 +99,7 @@ public class Capture {
 
         Matrix m1 = new Matrix();
         m1.postRotate(params.angle, 0, 0);
-        Bitmap otherBitmap = Bitmap.createScaledBitmap(other.getCollectBitmap(), (int)(other.getCollectBitmap().getWidth() * other.getScale()), (int)(other.getCollectBitmap().getHeight() * other.getScale()), false);
+        Bitmap otherBitmap = Bitmap.createScaledBitmap(other.getCollectBitmap(), (int)(other.getCollectBitmap().getWidth() * other.getScale()  * params.imageScale), (int)(other.getCollectBitmap().getHeight() * other.getScale()  * params.imageScale), false);
         Bitmap scaled = Bitmap.createScaledBitmap(captureBitmap, (int)(captureBitmap.getWidth() * params.scale * params.imageScale), (int)(captureBitmap.getHeight() * params.scale * params.imageScale), true);
         int oldWit = scaled.getWidth();
         int oldHit = scaled.getHeight();
@@ -382,7 +376,6 @@ public class Capture {
         public float angle = 0;
         public boolean scalable = true;
         public float captureChance = 1.0f;
-        public int id = -1;
         public float imageScale = 1.0f;
     }
     /**

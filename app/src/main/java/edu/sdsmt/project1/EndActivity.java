@@ -92,11 +92,11 @@ public class EndActivity extends AppCompatActivity {
 
     private void setWinner() {
         if (player1Score > player2Score) {
-            victoryTextView.setText("Player 1 wins!");
+            victoryTextView.setText(R.string.p1win);
         } else if (player2Score > player1Score) {
-            victoryTextView.setText("Player 2 wins!");
+            victoryTextView.setText(R.string.p2win);
         } else {
-            victoryTextView.setText("Tie game!");
+            victoryTextView.setText(R.string.tie);
         }
     }
 }

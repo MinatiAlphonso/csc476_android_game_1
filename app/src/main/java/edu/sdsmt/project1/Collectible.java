@@ -4,10 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.util.Log;
 
 import java.io.Serializable;
 import java.util.Random;
@@ -25,12 +23,14 @@ public class Collectible {
         params = new Parameters();
         params.backgroundHeight = height;
         params.backgroundWidth = width;
-        params.id = id;
         setRect();
     }
 
     private void setRect() {
-        rect.set((int)(params.x * params.backgroundHeight * params.imageScale - collectBitmap.getWidth() * params.scale / 2), (int)(params.y * params.backgroundWidth * params.imageScale - collectBitmap.getHeight() * params.scale / 2), (int)(params.x * params.backgroundHeight * params.imageScale) + (int)(collectBitmap.getWidth() * params.scale / 2), (int)(params.y  * params.backgroundWidth * params.imageScale) + (int)(collectBitmap.getHeight() * params.scale / 2));
+        rect.set((int)(params.x * params.backgroundHeight * params.imageScale - params.imageScale * collectBitmap.getWidth() * params.scale / 2),
+                (int)(params.y * params.backgroundWidth * params.imageScale - params.imageScale * collectBitmap.getHeight() * params.scale / 2),
+                (int)(params.x * params.backgroundHeight * params.imageScale) + (int)(params.imageScale * collectBitmap.getWidth() * params.scale / 2),
+                (int)(params.y  * params.backgroundWidth * params.imageScale) + (int)(params.imageScale * collectBitmap.getHeight() * params.scale / 2));
     }
 
 
@@ -39,11 +39,11 @@ public class Collectible {
     }
 
     public float getX() {
-        return params.x * params.backgroundHeight * params.imageScale - collectBitmap.getWidth() * params.scale / 2;
+        return params.x * params.backgroundHeight * params.imageScale - params.imageScale * collectBitmap.getWidth() * params.scale / 2;
     }
 
     public float getY() {
-        return params.y * params.backgroundWidth * params.imageScale - collectBitmap.getHeight() * params.scale / 2;
+        return params.y * params.backgroundWidth * params.imageScale - params.imageScale * collectBitmap.getHeight() * params.scale / 2;
     }
 
     public Rect getRect() {
@@ -85,7 +85,6 @@ public class Collectible {
     private static class Parameters implements Serializable {
         public float x = 0;
         public float y = 0;
-        public int id = -1;
         public float scale = 0.15f;
         public boolean captured = false;
         public int backgroundHeight = 0;

@@ -60,4 +60,7 @@ Zap the Asteroids in your path to gain points. The more asteroids you zap, the h
 </p>
     ]]></string>
     <string name="help">Help</string>
+    <string name="p1win">Player 1 wins!</string>
+    <string name="p2win">Player 2 wins!</string>
+    <string name="tie">Tie game!</string>
 </resources>

@@ -4,10 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -22,11 +19,8 @@ public class Game {
     private final static float SCALE_IN_VIEW = 1.0f;
     private float marginLeft;
     private float marginTop;
-    private int numCollectibles = 15;
 
     // Public variables to reference
-    public static final int PLAYER1_TURN = 1;
-    public static final int PLAYER2_TURN = 2;
     public static final int GAME_OVER = -1;
     public static final int GAME_PLAYING = 0;
     public static final int RECTANGLE_CAPTURE = 0;
@@ -62,7 +56,6 @@ public class Game {
     private static final String GAME_PARAMS = "edu.sdsmt.project1.GAME_PARAMS";
     private static final String PLAYER1_PARAMS = "edu.sdsmt.project1.PLAYER1_PARAMS";
     private static final String PLAYER2_PARAMS = "edu.sdsmt.project1.PLAYER2_PARAMS";
-    private static final String SELECTED_CAPTURE = "edu.sdsmt.project1.SELECTED_CAPTURE";
 
     private static final String COLLECTIBLE_PARAMS = "edu.sdsmt.project1.captureparams";
     // constructor
@@ -79,8 +72,8 @@ public class Game {
         collectibles = new ArrayList<>();
 
         // initialization for captures and collectibles.
-        rectangleCapture = new RectangleCapture(context, R.drawable.rectangle);
-        circleCapture = new CircleCapture(context, R.drawable.circle);
+        rectangleCapture = new RectangleCapture(context, R.drawable.rectangle_concentric);
+        circleCapture = new CircleCapture(context, R.drawable.circle_concentric);
         lineCapture = new LineCapture(context, R.drawable.line);
 
         circleCapture.setScalable(false);
@@ -123,20 +116,6 @@ public class Game {
     public void setRounds(int rounds) {
         params.rounds = rounds;
         params.remainingRounds = rounds;
-    }
-
-    // Updates which player's turn it is and round remaining
-    public void roundFinished() {
-        // decrease rounds remaining
-        params.remainingRounds -= 1;
-        // switch turn
-        if (params.turn == PLAYER1_TURN) {
-            params.turn = PLAYER2_TURN;
-        }
-        else {
-            params.turn = PLAYER1_TURN;
-        }
-
     }
 
     public int getTotalRounds(){
