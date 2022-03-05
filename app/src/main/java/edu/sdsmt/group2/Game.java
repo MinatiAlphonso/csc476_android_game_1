@@ -1,4 +1,4 @@
-package edu.sdsmt.project1;
+package edu.sdsmt.group2;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -53,11 +53,11 @@ public class Game {
     private ArrayList<Collectible> collectibles;
 
     // add collectibles here
-    private static final String GAME_PARAMS = "edu.sdsmt.project1.GAME_PARAMS";
-    private static final String PLAYER1_PARAMS = "edu.sdsmt.project1.PLAYER1_PARAMS";
-    private static final String PLAYER2_PARAMS = "edu.sdsmt.project1.PLAYER2_PARAMS";
+    private static final String GAME_PARAMS = "edu.sdsmt.group2.GAME_PARAMS";
+    private static final String PLAYER1_PARAMS = "edu.sdsmt.group2.PLAYER1_PARAMS";
+    private static final String PLAYER2_PARAMS = "edu.sdsmt.group2.PLAYER2_PARAMS";
 
-    private static final String COLLECTIBLE_PARAMS = "edu.sdsmt.project1.captureparams";
+    private static final String COLLECTIBLE_PARAMS = "edu.sdsmt.group2.captureparams";
     // constructor
     // context used to pass to collectibles and captures
     public Game(Context context) {

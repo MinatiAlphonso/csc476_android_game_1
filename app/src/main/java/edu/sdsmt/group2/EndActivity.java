@@ -1,4 +1,4 @@
-package edu.sdsmt.project1;
+package edu.sdsmt.group2;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 public class EndActivity extends AppCompatActivity {
 
-    public final static String PLAYER1_SCORE = "edu.sdsmt.project1.PLAYER1_SCORE";
-    public final static String PLAYER2_SCORE = "edu.sdsmt.project1.PLAYER2_SCORE";
+    public final static String PLAYER1_SCORE = "edu.sdsmt.group2.PLAYER1_SCORE";
+    public final static String PLAYER2_SCORE = "edu.sdsmt.group2.PLAYER2_SCORE";
     private final static String PLAYER1_NAME = "PLAYER1_NAME";
     private final static String PLAYER2_NAME = "PLAYER2_NAME";
 

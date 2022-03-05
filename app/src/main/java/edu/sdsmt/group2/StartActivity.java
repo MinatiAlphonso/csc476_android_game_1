@@ -1,4 +1,4 @@
-package edu.sdsmt.project1;
+package edu.sdsmt.group2;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;

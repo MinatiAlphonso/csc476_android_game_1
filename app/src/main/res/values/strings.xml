@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Project1</string>
+    <string name="app_name">Asteroids</string>
     <string name="grid_laser_button_text">Grid Laser</string>
     <string name="radial_laser_button_text">Radial Laser</string>
     <string name="linear_laser_button_text">Linear Laser</string>

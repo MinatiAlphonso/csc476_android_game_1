@@ -1,4 +1,4 @@
-package edu.sdsmt.project1;
+package edu.sdsmt.group2;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -17,12 +17,12 @@ import android.widget.TextView;
 public class GameActivity extends AppCompatActivity {
 
     //tag to identify information being passed to THIS activity
-    public final static String PLAYER1_NAME = "edu.sdsmt.project1.PLAYER1_NAME";
-    public final static String PLAYER2_NAME = "edu.sdsmt.project1.PLAYER2_NAME";
-    public final static String ROUND_COUNT = "edu.sdsmt.project1.ROUND_COUNT";
+    public final static String PLAYER1_NAME = "edu.sdsmt.group2.PLAYER1_NAME";
+    public final static String PLAYER2_NAME = "edu.sdsmt.group2.PLAYER2_NAME";
+    public final static String ROUND_COUNT = "edu.sdsmt.group2.ROUND_COUNT";
 
     //gets the capture information back from the captureActivity
-    public final static String RETURN_CAPTURE_MESSAGE = "edu.sdsmt.project1.RETURN_CAPTURE_MESSAGE";
+    public final static String RETURN_CAPTURE_MESSAGE = "edu.sdsmt.group2.RETURN_CAPTURE_MESSAGE";
 
     private TextView Player1Name = null;
     private TextView Player2Name = null;

@@ -1,4 +1,4 @@
-package edu.sdsmt.project1;
+package edu.sdsmt.group2;
 
 import android.content.Context;
 

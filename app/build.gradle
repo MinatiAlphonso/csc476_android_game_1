@@ -6,7 +6,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "edu.sdsmt.project1"
+        applicationId "edu.sdsmt.group2"
         minSdk 23
         targetSdk 32
         versionCode 1
