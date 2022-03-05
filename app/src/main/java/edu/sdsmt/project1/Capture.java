@@ -410,7 +410,7 @@ public class Capture {
         public float scale = 1.0f;
         public float angle = 0;
         public boolean scalable = true;
-        public float captureChance = 1.0f;
+        public float captureChance = 0.25f;
         public int id = -1;
     }
     /**
