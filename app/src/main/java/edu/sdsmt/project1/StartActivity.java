@@ -1,11 +1,18 @@
 package edu.sdsmt.project1;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 
 public class StartActivity extends AppCompatActivity {
@@ -51,5 +58,22 @@ public class StartActivity extends AppCompatActivity {
             // launch the GameActivity
             startActivity(intent);
         }
+    }
+
+    public void onHelp(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Help!");
+        builder.setMessage(Html.fromHtml(getString(R.string.Help_paragraph)));
+        builder.setPositiveButton(android.R.string.ok, null);
+
+        AlertDialog alert = builder.create();
+        alert.show();
+
+        Window dialogWindow = alert.getWindow();
+
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;
+
+        dialogWindow.setAttributes(layoutParams);
     }
 }
