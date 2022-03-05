@@ -21,7 +21,7 @@ import java.io.Serializable;
  */
 public class Capture {
 
-    public static class CaptureChance {
+    public static class CaptureChancePresets {
         public static final float rectangle = 0.8f;
         public static final float circle = 0.8f;
         public static final float line = 1.0f;
@@ -40,11 +40,21 @@ public class Capture {
      * Second touch status
      */
     private Touch touch2 = new Touch();
+
     public Capture(Context context, int id) {
         captureBitmap = BitmapFactory.decodeResource(context.getResources(), id);
         rect = new Rect();
         params = new Parameters();
         params.id = id;
+        setRect();
+    }
+
+    public Capture(Context context, int id, float captureChance) {
+        captureBitmap = BitmapFactory.decodeResource(context.getResources(), id);
+        rect = new Rect();
+        params = new Parameters();
+        params.id = id;
+        params.captureChance = captureChance;
         setRect();
     }
 
@@ -55,7 +65,7 @@ public class Capture {
      *          will be captured
      */
     public float getChance() {
-        return 0.0f;//CaptureChance.rectangle;
+        return 1.0f;
     }
 
     private void setRect() {
@@ -405,6 +415,7 @@ public class Capture {
         public float scale = 0.5f;
         public float angle = 0;
         public boolean scalable = true;
+        public float captureChance = 1.0f;
         public int id = -1;
     }
     /**

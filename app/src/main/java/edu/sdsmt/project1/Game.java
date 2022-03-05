@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -73,15 +74,27 @@ public class Game {
         player2 = new Player();
         random = new Random();
         // should either 1 or 2
-        params.turn = random.nextInt(2) + 1;
+        params.turn = 1;
 
         backgroundBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.space);
         collectibles = new ArrayList<>();
 
         // initialization for captures and collectibles.
-        rectangleCapture = new Capture(context, R.drawable.rectangle);
-        circleCapture = new Capture(context, R.drawable.circle);
-        lineCapture = new Capture(context, R.drawable.line);
+        rectangleCapture = new Capture(
+                context,
+                R.drawable.rectangle,
+                Capture.CaptureChancePresets.rectangle
+        );
+        circleCapture = new Capture(
+                context,
+                R.drawable.circle,
+                Capture.CaptureChancePresets.circle
+        );
+        lineCapture = new Capture(
+                context,
+                R.drawable.line,
+                Capture.CaptureChancePresets.line
+        );
 
         circleCapture.setScalable(false);
         lineCapture.setScalable(false);
@@ -231,7 +244,8 @@ public class Game {
         for (int colIndex = 0; colIndex < getCollectibles().size(); colIndex++) {
             // if the collectible overlaps with the capture shape
             Collectible col = getCollectibles().get(colIndex);
-            if (getCapture().collisionTest(col) && random.nextFloat() < getCapture().getChance()) {
+            if (getCapture().collisionTest(col)
+                    && random.nextFloat() < getCapture().getChance()) {
                 // add it to the list of overlapping collectibles, given the collection chance
                 capturedCollectibles.add(col);
             }
