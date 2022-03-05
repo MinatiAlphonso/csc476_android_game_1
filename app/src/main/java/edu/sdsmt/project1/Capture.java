@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -43,15 +44,6 @@ public class Capture {
         setRect();
     }
 
-    public Capture(Context context, int id, float captureChance) {
-        captureBitmap = BitmapFactory.decodeResource(context.getResources(), id);
-        rect = new Rect();
-        params = new Parameters();
-        params.id = id;
-        setChance(captureChance);
-        setRect();
-    }
-
     /**
      * This function returns the chance of capturing an overlapping collectible
      * (The chance of capturing corresponds to the shape of the capture area)
@@ -73,10 +65,10 @@ public class Capture {
     }
 
     private void setRect() {
-        int locX = (int)params.x;
-        int locY = (int)params.y;
-        int endX = locX + (int)(captureBitmap.getWidth() * params.scale);
-        int endY = locY + (int)(captureBitmap.getHeight() * params.scale);
+        int locX = (int)(params.x * params.imageScale);
+        int locY = (int)(params.y * params.imageScale);
+        int endX = locX + (int)(captureBitmap.getWidth() * params.scale * params.imageScale);
+        int endY = locY + (int)(captureBitmap.getHeight() * params.scale * params.imageScale);
 
         rect.set(locX, locY, endX, endY);
     }
@@ -93,20 +85,6 @@ public class Capture {
         params.angle = angle;
     }
 
-    public boolean hit(float testX, float testY) {
-        int pX = (int)((testX - params.x));
-        int pY = (int)((testY - params.y));
-
-        if(pX < 0 || pX >= captureBitmap.getWidth() ||
-                pY < 0 || pY >= captureBitmap.getHeight()) {
-            return false;
-        }
-
-        // We are within the rectangle of the piece.
-        // Are we touching actual picture?
-        return (captureBitmap.getPixel(pX, pY) & 0xff000000) != 0;
-    }
-
     /**
      * Collision detection between two coverPics. This object is
      * compared to the one referenced by other
@@ -115,7 +93,7 @@ public class Capture {
      */
     public boolean collisionTest(Collectible other) {
         // collision works as long as the collectible and capture are not scaled
-
+        setRect();
         // Do the rectangles overlap?
         if(!Rect.intersects(rect, other.getRect())) {
             return false;
@@ -128,7 +106,7 @@ public class Capture {
         Matrix m1 = new Matrix();
         m1.postRotate(params.angle, 0, 0);
         Bitmap otherBitmap = Bitmap.createScaledBitmap(other.getCollectBitmap(), (int)(other.getCollectBitmap().getWidth() * other.getScale()), (int)(other.getCollectBitmap().getHeight() * other.getScale()), false);
-        Bitmap scaled = Bitmap.createScaledBitmap(captureBitmap, (int)(captureBitmap.getWidth() * params.scale), (int)(captureBitmap.getHeight() * params.scale), true);
+        Bitmap scaled = Bitmap.createScaledBitmap(captureBitmap, (int)(captureBitmap.getWidth() * params.scale * params.imageScale), (int)(captureBitmap.getHeight() * params.scale * params.imageScale), true);
         int oldWit = scaled.getWidth();
         int oldHit = scaled.getHeight();
         scaled = Bitmap.createBitmap(scaled, 0, 0, scaled.getWidth(), scaled.getWidth(), m1, true);
@@ -137,12 +115,12 @@ public class Capture {
         scaled = Bitmap.createBitmap(scaled, dw / 2, dh / 2, scaled.getWidth() - dw / 2, scaled.getHeight() - dh / 2);
         // We have overlap. Now see if we have any pixels in common
         for(int r=overlap.top; r<overlap.bottom;  r++) {
-            int aY = (int)((r - params.y));
+            int aY = (int)((r - params.y * params.imageScale));
             int bY = (int)((r - (other.getY())));
 
             for(int c=overlap.left;  c<overlap.right;  c++) {
 
-                int aX = (int)((c - params.x));
+                int aX = (int)((c - params.x * params.imageScale));
                 int bX = (int)((c - (other.getX())));
 
                 // checks to ensure nothing is out of bounds.
@@ -183,12 +161,7 @@ public class Capture {
         return false;
     }
 
-    public Bitmap getCollectBitmap() {
-        return captureBitmap;
-    }
-
     public float getAngle(){return params.angle;}
-    public void setID(int id){params.id = id;}
     public void setX(float X){params.x = X;}
     public void setY(float Y){params.y = Y;}
     public float getX() {
@@ -199,9 +172,6 @@ public class Capture {
         return params.y;
     }
 
-    public Rect getRect() {
-        return rect;
-    }
     public float getScale() {
         return params.scale;
     }
@@ -210,6 +180,7 @@ public class Capture {
      * Draw the selected Capture option
      */
     public void draw(Canvas canvas, float marginLeft, float marginTop, float imageScale) {
+        params.imageScale = imageScale;
         canvas.save();
         canvas.translate(marginLeft+(imageScale*params.x), marginTop+(imageScale*params.y));
         canvas.scale(imageScale*params.scale,imageScale*params.scale);
@@ -412,6 +383,7 @@ public class Capture {
         public boolean scalable = true;
         public float captureChance = 1.0f;
         public int id = -1;
+        public float imageScale = 1.0f;
     }
     /**
      * Local class to handle the touch status for one touch.
@@ -471,19 +443,4 @@ public class Capture {
         }
     }
 
-    public void saveCaptureState(String key, Bundle bundle) {
-        bundle.putSerializable(key, params);
-    }
-
-    public void loadCaptureState(String key, Bundle bundle) {
-        params = (Parameters)bundle.getSerializable(key);
-        setX(params.x);
-        setY(params.y);
-        setScale(params.scale);
-        setScalable(params.scalable);
-        setAngle(params.angle);
-        setID(params.id);
-        setChance(params.captureChance);
-        setRect();
-    }
 }

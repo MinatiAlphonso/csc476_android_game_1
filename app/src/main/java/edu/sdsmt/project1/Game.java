@@ -36,14 +36,15 @@ public class Game {
     // class to serialize parameters
     private static class Parameters implements Serializable {
         // added rounds for now. Might not be needed
-        private int rounds = 0;
-        private int remainingRounds = 0;
-        private int turn = 1;
-        private int capture = -1;//default is no capture option selected
-        private float x = 0;
-        private float y = 0;
-        private float angle = 0;
-        private float scale = 0.25f;
+        public int rounds = 0;
+        public int remainingRounds = 0;
+        public int turn = 1;
+        public int capture = -1;//default is no capture option selected
+        public float x = 0;
+        public float y = 0;
+        public float angle = 0;
+        public float scale = 0.25f;
+        public int collectibles = 15;
     }
     private Parameters params;
     private Player player1;
@@ -82,13 +83,18 @@ public class Game {
         circleCapture = new CircleCapture(context, R.drawable.circle);
         lineCapture = new LineCapture(context, R.drawable.line);
 
+        circleCapture.setScalable(false);
+        circleCapture.setScale(0.25f);
+        lineCapture.setScalable(false);
+        lineCapture.setScale(0.50f);
+
         addCollectibleToList(context);
 
         shuffle();
     }
 
     public void addCollectibleToList(Context context){
-        for(int i = 0; i < numCollectibles; i++) {
+        for(int i = 0; i < params.collectibles; i++) {
             // added background image dimensions so that the get x and y functions can return absolute location for collisions
             collectibles.add(new Collectible(context, R.drawable.collectible, backgroundBitmap.getWidth(), backgroundBitmap.getHeight()));
         }
@@ -135,9 +141,6 @@ public class Game {
 
     public int getTotalRounds(){
         return params.rounds;
-    }
-    public int getRoundsRemaining() {
-        return params.remainingRounds;
     }
 
     public int getRound() {
@@ -363,6 +366,7 @@ public class Game {
             params.angle = selectedCapture.getAngle();
             params.scale = selectedCapture.getScale();
         }
+        params.collectibles = collectibles.size();
         bundle.putSerializable(GAME_PARAMS, params);
         player1.savePlayer(PLAYER1_PARAMS, bundle);
         player2.savePlayer(PLAYER2_PARAMS, bundle);
@@ -384,6 +388,8 @@ public class Game {
             selectedCapture.setAngle(params.angle);
             selectedCapture.setScale(params.scale);
         }
+        collectibles.clear();
+        addCollectibleToList(gameView.getContext());
         int i = 0;
         for (Collectible collect : collectibles) {
             collect.loadCollectibleState(COLLECTIBLE_PARAMS + i, bundle);

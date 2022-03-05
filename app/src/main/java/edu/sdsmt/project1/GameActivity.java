@@ -105,7 +105,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void onCapture(View view){
-    isCaptureEnabled = false;
+        isCaptureEnabled = false;
         Capture.setEnabled(isCaptureEnabled);
         game.captureCollectibles(); //this is causing the game to either crash or move to the start screen
 
@@ -119,7 +119,6 @@ public class GameActivity extends AppCompatActivity {
         updateUI();
 
         if (game.getGameState() == Game.GAME_OVER) {
-//            Log.d("GAME_STATE", "Game Over");
             openEndActivity();
             this.finish();// close GameActivity so EndActivity will reveal StartActivity on closing
         }

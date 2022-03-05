@@ -29,12 +29,6 @@ public class Collectible {
         setRect();
     }
 
-    public void move(float dx, float dy) {
-        params.x += dx;
-        params.y += dy;
-        setRect();
-    }
-
     private void setRect() {
         rect.set((int)(params.x * params.backgroundHeight * params.imageScale - collectBitmap.getWidth() * params.scale / 2), (int)(params.y * params.backgroundWidth * params.imageScale - collectBitmap.getHeight() * params.scale / 2), (int)(params.x * params.backgroundHeight * params.imageScale) + (int)(collectBitmap.getWidth() * params.scale / 2), (int)(params.y  * params.backgroundWidth * params.imageScale) + (int)(collectBitmap.getHeight() * params.scale / 2));
     }
@@ -44,12 +38,6 @@ public class Collectible {
         return collectBitmap;
     }
 
-    public void setX(float x){
-        params.x = x;
-    }
-    public void setY(float y){
-        params.y = y;
-    }
     public float getX() {
         return params.x * params.backgroundHeight * params.imageScale - collectBitmap.getWidth() * params.scale / 2;
     }
@@ -75,22 +63,17 @@ public class Collectible {
         return params.captured;
     }
 
-    public void capture() {
-        params.captured = true;
-    }
 
     public void draw(Canvas canvas, float marginLeft, float marginTop, float imageScale, float imgWid, float imgHit) {
         /**
          * Draw Collectible
          */
-        if (!params.captured) {
-            canvas.save();
-            canvas.translate(marginLeft + (params.x * imgWid * imageScale), marginTop + (params.y * imgHit * imageScale));
-            canvas.scale(imageScale*params.scale, imageScale*params.scale);
-            canvas.translate(-collectBitmap.getWidth() / 2.0f, -collectBitmap.getHeight() / 2.0f);
-            canvas.drawBitmap(collectBitmap, 0, 0, null);
-            canvas.restore();
-        }
+        canvas.save();
+        canvas.translate(marginLeft + (params.x * imgWid * imageScale), marginTop + (params.y * imgHit * imageScale));
+        canvas.scale(imageScale*params.scale, imageScale*params.scale);
+        canvas.translate(-collectBitmap.getWidth() / 2.0f, -collectBitmap.getHeight() / 2.0f);
+        canvas.drawBitmap(collectBitmap, 0, 0, null);
+        canvas.restore();
     }
 
     public void shuffle(Random rand) {
@@ -104,7 +87,6 @@ public class Collectible {
         public float y = 0;
         public int id = -1;
         public float scale = 0.15f;
-        public float angle = 0;
         public boolean captured = false;
         public int backgroundHeight = 0;
         public int backgroundWidth = 0;
