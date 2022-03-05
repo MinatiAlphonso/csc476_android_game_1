@@ -40,6 +40,8 @@ public class Game {
         private int capture = -1;//default is no capture option selected
         private float x = 0;
         private float y = 0;
+        private float angle = 0;
+        private float scale = 0.5f;
     }
     private Parameters params;
     private Player player1;
@@ -54,8 +56,6 @@ public class Game {
     private ArrayList<Collectible> collectibles;
 
     // add collectibles here
-
-
     private static final String GAME_PARAMS = "edu.sdsmt.project1.gameparams";
     private static final String PLAYER1_PARAMS = "edu.sdsmt.project1.player1params";
     private static final String PLAYER2_PARAMS = "edu.sdsmt.project1.player2params";
@@ -357,6 +357,8 @@ public class Game {
         if(selectedCapture!=null){
             params.x = selectedCapture.getX();
             params.y = selectedCapture.getY();
+            params.angle = selectedCapture.getAngle();
+            params.scale = selectedCapture.getScale();
         }
         bundle.putSerializable(GAME_PARAMS, params);
         player1.savePlayer(PLAYER1_PARAMS, bundle);
@@ -376,6 +378,8 @@ public class Game {
         if(selectedCapture!=null){
             selectedCapture.setX(params.x);
             selectedCapture.setY(params.y);
+            selectedCapture.setAngle(params.angle);
+            selectedCapture.setScale(params.scale);
         }
         int i = 0;
         for (Collectible collect : collectibles) {
