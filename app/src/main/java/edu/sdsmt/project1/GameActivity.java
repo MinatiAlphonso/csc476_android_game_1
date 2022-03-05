@@ -121,7 +121,7 @@ public class GameActivity extends AppCompatActivity {
         if (game.getGameState() == Game.GAME_OVER) {
 //            Log.d("GAME_STATE", "Game Over");
             openEndActivity();
-            this.finish();
+            this.finish();// close GameActivity so EndActivity will reveal StartActivity on closing
         }
     }
 
@@ -135,7 +135,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed()
+    public void onBackPressed()//GRADING: BACK
     {
         DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
             @Override
