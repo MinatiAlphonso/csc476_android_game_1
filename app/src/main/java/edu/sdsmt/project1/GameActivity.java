@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -117,9 +119,39 @@ public class GameActivity extends AppCompatActivity {
         updateUI();
 
         if (game.getGameState() == Game.GAME_OVER) {
-            // open end activity
-            Log.d("GAME_STATE", "Game Over");
+//            Log.d("GAME_STATE", "Game Over");
+            openEndActivity();
+            this.finish();
         }
+    }
+
+    private void openEndActivity() {
+        Intent intent = new Intent(this, EndActivity.class);
+        intent.putExtra(PLAYER1_NAME, Player1Name.getText());
+        intent.putExtra(PLAYER2_NAME, Player2Name.getText());
+        intent.putExtra(EndActivity.PLAYER1_SCORE, game.getPlayer1().getScore());
+        intent.putExtra(EndActivity.PLAYER2_SCORE, game.getPlayer2().getScore());
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int option) {
+                if(option == DialogInterface.BUTTON_POSITIVE) {
+                    finish();
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        String dialogMessage = "Both players' progress will be lost. Are you sure you want to quit the game?";
+        builder.setMessage(dialogMessage)
+                .setPositiveButton("Yes", dialogListener)
+                .setNegativeButton("No", dialogListener)
+                .show();
     }
 
 
