@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -51,9 +52,9 @@ public class Game {
 
     private Capture selectedCapture = null;//default is no capture option selected
     // finish Capture in game class
-    private Capture circleCapture;
-    private Capture rectangleCapture;
-    private Capture lineCapture;
+    private final Capture circleCapture;
+    private final Capture rectangleCapture;
+    private final Capture lineCapture;
     private ArrayList<Collectible> collectibles;
 
     // add collectibles here
@@ -71,19 +72,15 @@ public class Game {
         player2 = new Player();
         random = new Random();
         // should either 1 or 2
-        params.turn = random.nextInt(2) + 1;
+        params.turn = 1;
 
         backgroundBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.space);
         collectibles = new ArrayList<>();
 
         // initialization for captures and collectibles.
-        rectangleCapture = new Capture(context, R.drawable.rectangle);
-        circleCapture = new Capture(context, R.drawable.circle);
-        lineCapture = new Capture(context, R.drawable.line);
-
-        circleCapture.setScalable(false);
-        lineCapture.setScalable(false);
-        lineCapture.setScale(0.50f);
+        rectangleCapture = new RectangleCapture(context, R.drawable.rectangle);
+        circleCapture = new CircleCapture(context, R.drawable.circle);
+        lineCapture = new LineCapture(context, R.drawable.line);
 
         addCollectibleToList(context);
 
@@ -229,22 +226,29 @@ public class Game {
         for (int colIndex = 0; colIndex < getCollectibles().size(); colIndex++) {
             // if the collectible overlaps with the capture shape
             Collectible col = getCollectibles().get(colIndex);
-            if (getCapture().collisionTest(col) && random.nextFloat() < getCapture().getChance()) {
+            if (getCapture().collisionTest(col)
+                    && random.nextFloat() < getCapture().getChance()) {
                 // add it to the list of overlapping collectibles, given the collection chance
                 capturedCollectibles.add(col);
             }
         }
         // remove the captured collectibles from collectibles
         getCollectibles().removeAll(capturedCollectibles);
-        // get the player whose turn it is
+        // increase the current player's score by the number of collectibles captured
+        getCurrentPlayer().scored(capturedCollectibles.size());
+    }
+
+    /**
+     * Returns the player whose turn it is
+     * */
+    private Player getCurrentPlayer() {
         Player currentPlayer;
         if (getPlayerTurn() == 1) {
             currentPlayer = getPlayer1();
         } else {
             currentPlayer = getPlayer2();
         }
-        // increase the current player's score by the number of collectibles captured
-        currentPlayer.scored(capturedCollectibles.size());
+        return currentPlayer;
     }
 
     /**

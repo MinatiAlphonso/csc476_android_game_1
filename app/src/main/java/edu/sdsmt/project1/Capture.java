@@ -21,12 +21,6 @@ import java.io.Serializable;
  */
 public class Capture {
 
-    public static class CaptureChance {
-        public static final float rectangle = 0.8f;
-        public static final float circle = 0.8f;
-        public static final float line = 1.0f;
-    }
-
     private Bitmap captureBitmap;
     private Rect rect;
     private Rect overlap = new Rect();
@@ -40,11 +34,21 @@ public class Capture {
      * Second touch status
      */
     private Touch touch2 = new Touch();
+
     public Capture(Context context, int id) {
         captureBitmap = BitmapFactory.decodeResource(context.getResources(), id);
         rect = new Rect();
         params = new Parameters();
         params.id = id;
+        setRect();
+    }
+
+    public Capture(Context context, int id, float captureChance) {
+        captureBitmap = BitmapFactory.decodeResource(context.getResources(), id);
+        rect = new Rect();
+        params = new Parameters();
+        params.id = id;
+        setChance(captureChance);
         setRect();
     }
 
@@ -55,7 +59,17 @@ public class Capture {
      *          will be captured
      */
     public float getChance() {
-        return 0.0f;//CaptureChance.rectangle;
+        return 1.0f;
+    }
+
+    public void setChance(float chance) {
+        if (chance > 1.0f) {
+            params.captureChance = 1.0f;
+        } else if(chance < 0.0f) {
+            params.captureChance = 0.0f;
+        } else {
+            params.captureChance = chance;
+        }
     }
 
     private void setRect() {
@@ -393,9 +407,10 @@ public class Capture {
     private static class Parameters implements Serializable {
         public float x = 0;
         public float y = 0;
-        public float scale = 0.25f;
+        public float scale = 1.0f;
         public float angle = 0;
         public boolean scalable = true;
+        public float captureChance = 1.0f;
         public int id = -1;
     }
     /**
@@ -454,5 +469,21 @@ public class Capture {
             dX = x - lastX;
             dY = y - lastY;
         }
+    }
+
+    public void saveCaptureState(String key, Bundle bundle) {
+        bundle.putSerializable(key, params);
+    }
+
+    public void loadCaptureState(String key, Bundle bundle) {
+        params = (Parameters)bundle.getSerializable(key);
+        setX(params.x);
+        setY(params.y);
+        setScale(params.scale);
+        setScalable(params.scalable);
+        setAngle(params.angle);
+        setID(params.id);
+        setChance(params.captureChance);
+        setRect();
     }
 }
