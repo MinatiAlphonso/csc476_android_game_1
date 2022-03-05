@@ -59,7 +59,7 @@ public class Capture {
      *          will be captured
      */
     public float getChance() {
-        return 1.0f;
+        return params.captureChance;
     }
 
     public void setChance(float chance) {
@@ -407,10 +407,10 @@ public class Capture {
     private static class Parameters implements Serializable {
         public float x = 0;
         public float y = 0;
-        public float scale = 1.0f;
+        public float scale = 0.25f;
         public float angle = 0;
         public boolean scalable = true;
-        public float captureChance = 0.25f;
+        public float captureChance = 1.0f;
         public int id = -1;
     }
     /**

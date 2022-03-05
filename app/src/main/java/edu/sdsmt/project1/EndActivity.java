@@ -20,6 +20,7 @@ public class EndActivity extends AppCompatActivity {
     private TextView player2NameTextView;
     private TextView player1FinalScoreTextView;
     private TextView player2FinalScoreTextView;
+    private TextView victoryTextView;
 
     private String player1Name;
     private String player2Name;
@@ -62,11 +63,13 @@ public class EndActivity extends AppCompatActivity {
         player2NameTextView = findViewById(R.id.player2FinalTextView);
         player1FinalScoreTextView = findViewById(R.id.player1FinalScoreTextView);
         player2FinalScoreTextView = findViewById(R.id.player2FinalScoreTextView);
+        victoryTextView = findViewById(R.id.victoryTextView);
 
         player1NameTextView.setText(player1Name);
         player2NameTextView.setText(player2Name);
         player1FinalScoreTextView.setText(String.valueOf(player1Score));
         player2FinalScoreTextView.setText(String.valueOf(player2Score));
+        setWinner();
     }
 
     @Override
@@ -85,5 +88,15 @@ public class EndActivity extends AppCompatActivity {
 
     public void onReturnToStartButtonClick(View view) {
         this.finish();
+    }
+
+    private void setWinner() {
+        if (player1Score > player2Score) {
+            victoryTextView.setText("Player 1 wins!");
+        } else if (player2Score > player1Score) {
+            victoryTextView.setText("Player 2 wins!");
+        } else {
+            victoryTextView.setText("Tie game!");
+        }
     }
 }

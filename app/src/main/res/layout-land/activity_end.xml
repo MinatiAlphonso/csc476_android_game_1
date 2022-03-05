@@ -61,6 +61,17 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="2">
+
+        <TextView
+            android:id="@+id/victoryTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            app:layout_constraintBottom_toTopOf="@+id/return_to_start_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <Button
             android:id="@+id/return_to_start_button"
             android:layout_width="wrap_content"

@@ -8,7 +8,7 @@ public class CircleCapture extends Capture{
 
     public CircleCapture(Context context, int id) {
         super(context, id);
-        setScale(1.0f);
+        setScale(0.25f);
         setChance(CAPTURE_CHANCE);
     }
 }

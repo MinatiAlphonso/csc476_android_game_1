@@ -8,7 +8,6 @@ public class LineCapture extends Capture {
 
     public LineCapture(Context context, int id) {
         super(context, id);
-        setScale(1.0f);
         setChance(CAPTURE_CHANCE);
     }
 }
