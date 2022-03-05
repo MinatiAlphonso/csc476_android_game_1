@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,6 +22,7 @@ public class Game {
     private float marginLeft;
     private float marginTop;
     private int numCollectibles = 15;
+    private DisplayMetrics dm;
 
     // Public variables to reference
     public static final int PLAYER1_TURN = 1;
@@ -41,7 +43,7 @@ public class Game {
         private float x = 0;
         private float y = 0;
         private float angle = 0;
-        private float scale = 0.5f;
+        private float scale = 0.25f;
     }
     private Parameters params;
     private Player player1;
@@ -68,6 +70,7 @@ public class Game {
     // constructor
     // context used to pass to collectibles and captures
     public Game(Context context) {
+        dm = context.getResources().getDisplayMetrics();
         params = new Parameters();
         player1 = new Player();
         player2 = new Player();
@@ -85,7 +88,7 @@ public class Game {
 
         circleCapture.setScalable(false);
         lineCapture.setScalable(false);
-        lineCapture.setScale(1f);
+        lineCapture.setScale(0.50f);
 
         addCollectibleToList(context);
 
@@ -188,7 +191,7 @@ public class Game {
             switch (params.capture) {
                 case RECTANGLE_CAPTURE:
                     selectedCapture = rectangleCapture;
-                    if(needsReset){selectedCapture.setScale(0.5f);}
+                    if(needsReset){selectedCapture.setScale(0.25f);}
                     break;
 
                 case CIRCLE_CAPTURE:
@@ -282,6 +285,15 @@ public class Game {
          * Calculations
          */
 
+        /*float screenW = dm.widthPixels;
+        float screenH = dm.heightPixels;
+        float scaleW = screenW / backgroundBitmap.getWidth();
+        float scaleH = screenH / backgroundBitmap.getHeight();
+        imageScale = Math.min(scaleW,scaleH) * SCALE_IN_VIEW;
+        marginLeft = (screenW - (imageScale * backgroundBitmap.getWidth())) / 2.0f;
+        marginTop = (screenH - (imageScale * backgroundBitmap.getHeight()))/ 2.0f;
+        */
+
         float wid = canvas.getWidth();
         float hit = canvas.getHeight();
 
@@ -301,6 +313,7 @@ public class Game {
         // Determine the top and left margins to center
         marginLeft = (wid - iWid) / 2.0f;
         marginTop = (hit - iHit) / 2.0f;
+
         // set the collectibles so that the get x and y functions return absolute position for collision bounds
         for (Collectible collect : collectibles) {
             collect.setImageScale(imageScale);

@@ -86,7 +86,7 @@ public class Collectible {
         if (!params.captured) {
             canvas.save();
             canvas.translate(marginLeft + (params.x * imgWid * imageScale), marginTop + (params.y * imgHit * imageScale));
-            canvas.scale(params.scale, params.scale);
+            canvas.scale(imageScale*params.scale, imageScale*params.scale);
             canvas.translate(-collectBitmap.getWidth() / 2.0f, -collectBitmap.getHeight() / 2.0f);
             canvas.drawBitmap(collectBitmap, 0, 0, null);
             canvas.restore();
@@ -103,7 +103,7 @@ public class Collectible {
         public float x = 0;
         public float y = 0;
         public int id = -1;
-        public float scale = 0.25f;
+        public float scale = 0.15f;
         public float angle = 0;
         public boolean captured = false;
         public int backgroundHeight = 0;

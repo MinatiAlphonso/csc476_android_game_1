@@ -194,17 +194,11 @@ public class Capture {
 
     /**
      * Draw the selected Capture option
-     * @param canvas
-     * @param marginLeft
-     * @param marginTop
-     * @param imageScale
-     * @param width
-     * @param height
      */
     public void draw(Canvas canvas, float marginLeft, float marginTop, float imageScale, int width, int height) {
         canvas.save();
-        canvas.translate(marginLeft+params.x, marginTop+params.y);
-        canvas.scale(params.scale,params.scale);
+        canvas.translate(marginLeft+(imageScale*params.x), marginTop+(imageScale*params.y));
+        canvas.scale(imageScale*params.scale,imageScale*params.scale);
         canvas.translate(captureBitmap.getWidth() / 2f, captureBitmap.getHeight() / 2f);
         canvas.rotate(params.angle);
         canvas.translate(-captureBitmap.getWidth() / 2f, -captureBitmap.getHeight() / 2f);
@@ -402,7 +396,7 @@ public class Capture {
     private static class Parameters implements Serializable {
         public float x = 0;
         public float y = 0;
-        public float scale = 0.5f;
+        public float scale = 0.25f;
         public float angle = 0;
         public boolean scalable = true;
         public int id = -1;
