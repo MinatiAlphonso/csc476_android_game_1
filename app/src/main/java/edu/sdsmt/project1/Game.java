@@ -43,7 +43,7 @@ public class Game {
         private float x = 0;
         private float y = 0;
         private float angle = 0;
-        private float scale = 0.5f;
+        private float scale = 0.25f;
     }
     private Parameters params;
     private Player player1;
@@ -88,7 +88,7 @@ public class Game {
 
         circleCapture.setScalable(false);
         lineCapture.setScalable(false);
-        lineCapture.setScale(1f);
+        lineCapture.setScale(0.50f);
 
         addCollectibleToList(context);
 
@@ -191,7 +191,7 @@ public class Game {
             switch (params.capture) {
                 case RECTANGLE_CAPTURE:
                     selectedCapture = rectangleCapture;
-                    if(needsReset){selectedCapture.setScale(0.5f);}
+                    if(needsReset){selectedCapture.setScale(0.25f);}
                     break;
 
                 case CIRCLE_CAPTURE:
