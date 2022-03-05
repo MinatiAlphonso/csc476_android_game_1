@@ -1,11 +1,21 @@
 package edu.sdsmt.project1;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Html;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.webkit.WebView;
 import android.widget.EditText;
 
 public class StartActivity extends AppCompatActivity {
@@ -51,5 +61,27 @@ public class StartActivity extends AppCompatActivity {
             // launch the GameActivity
             startActivity(intent);
         }
+    }
+
+    public void onHelp(View view) {
+        // create new web view
+        WebView webView = new WebView(this);
+        // set contents
+        webView.loadData(getString(R.string.Help_paragraph), "text/html", "UTF-8");
+        // create dialog, set title and add web view to dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(webView);
+        builder.setTitle("Asteroids!");
+        builder.setPositiveButton(android.R.string.ok, null);
+
+        // show dialog
+        AlertDialog alert = builder.create();
+        alert.show();
+        // get dialog window
+        Window dialogWindow = alert.getWindow();
+        // set dialog height to match parent and fill screen for easier reading
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;
+        dialogWindow.setAttributes(layoutParams);
     }
 }

@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Game {
-    private Bitmap backgroundBitmap = null;
+    private Bitmap backgroundBitmap;
     private GameView gameView;
     private float imageScale;
     private final static float SCALE_IN_VIEW = 1.0f;
@@ -42,7 +43,7 @@ public class Game {
         private float x = 0;
         private float y = 0;
         private float angle = 0;
-        private float scale = 0.5f;
+        private float scale = 0.25f;
     }
     private Parameters params;
     private Player player1;
@@ -57,13 +58,10 @@ public class Game {
     private ArrayList<Collectible> collectibles;
 
     // add collectibles here
-    private static final String GAME_PARAMS = "edu.sdsmt.project1.gameparams";
-    private static final String PLAYER1_PARAMS = "edu.sdsmt.project1.player1params";
-    private static final String PLAYER2_PARAMS = "edu.sdsmt.project1.player2params";
+    private static final String GAME_PARAMS = "edu.sdsmt.project1.GAME_PARAMS";
+    private static final String PLAYER1_PARAMS = "edu.sdsmt.project1.PLAYER1_PARAMS";
+    private static final String PLAYER2_PARAMS = "edu.sdsmt.project1.PLAYER2_PARAMS";
     private static final String SELECTED_CAPTURE = "edu.sdsmt.project1.SELECTED_CAPTURE";
-    private static final String RECTANGLE_PARAMS = "edu.sdsmt.project1.rectangleparams";
-    private static final String CIRCLE_PARAMS = "edu.sdsmt.project1.circleparams";
-    private static final String LINE_PARAMS = "edu.sdsmt.project1.lineparams";
 
     private static final String COLLECTIBLE_PARAMS = "edu.sdsmt.project1.captureparams";
     // constructor
@@ -185,7 +183,7 @@ public class Game {
             switch (params.capture) {
                 case RECTANGLE_CAPTURE:
                     selectedCapture = rectangleCapture;
-                    if(needsReset){selectedCapture.setScale(0.5f);}
+                    if(needsReset){selectedCapture.setScale(0.25f);}
                     break;
 
                 case CIRCLE_CAPTURE:
@@ -305,6 +303,7 @@ public class Game {
         // Determine the top and left margins to center
         marginLeft = (wid - iWid) / 2.0f;
         marginTop = (hit - iHit) / 2.0f;
+
         // set the collectibles so that the get x and y functions return absolute position for collision bounds
         for (Collectible collect : collectibles) {
             collect.setImageScale(imageScale);
@@ -332,7 +331,7 @@ public class Game {
          * */
 
         if(selectedCapture != null){
-            selectedCapture.draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
+            selectedCapture.draw(canvas, marginLeft, marginTop, imageScale);
         }
 
     }
