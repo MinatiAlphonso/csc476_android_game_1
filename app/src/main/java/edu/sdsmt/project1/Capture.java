@@ -195,7 +195,7 @@ public class Capture {
     /**
      * Draw the selected Capture option
      */
-    public void draw(Canvas canvas, float marginLeft, float marginTop, float imageScale, int width, int height) {
+    public void draw(Canvas canvas, float marginLeft, float marginTop, float imageScale) {
         canvas.save();
         canvas.translate(marginLeft+(imageScale*params.x), marginTop+(imageScale*params.y));
         canvas.scale(imageScale*params.scale,imageScale*params.scale);
@@ -259,9 +259,6 @@ public class Capture {
      * Get the positions for the two touches and put them
      * into the appropriate touch objects.
      * @param event the motion event
-     * @param marginLeft
-     * @param marginTop
-     * @param imageScale
      */
     private void getPositions(View gameView,  MotionEvent event, float marginLeft, float marginTop, float imageScale) {
         for(int i=0;  i<event.getPointerCount();  i++) {

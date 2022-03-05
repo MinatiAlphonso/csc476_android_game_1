@@ -15,14 +15,13 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Game {
-    private Bitmap backgroundBitmap = null;
+    private Bitmap backgroundBitmap;
     private GameView gameView;
     private float imageScale;
     private final static float SCALE_IN_VIEW = 1.0f;
     private float marginLeft;
     private float marginTop;
     private int numCollectibles = 15;
-    private DisplayMetrics dm;
 
     // Public variables to reference
     public static final int PLAYER1_TURN = 1;
@@ -58,19 +57,15 @@ public class Game {
     private ArrayList<Collectible> collectibles;
 
     // add collectibles here
-    private static final String GAME_PARAMS = "edu.sdsmt.project1.gameparams";
-    private static final String PLAYER1_PARAMS = "edu.sdsmt.project1.player1params";
-    private static final String PLAYER2_PARAMS = "edu.sdsmt.project1.player2params";
+    private static final String GAME_PARAMS = "edu.sdsmt.project1.GAME_PARAMS";
+    private static final String PLAYER1_PARAMS = "edu.sdsmt.project1.PLAYER1_PARAMS";
+    private static final String PLAYER2_PARAMS = "edu.sdsmt.project1.PLAYER2_PARAMS";
     private static final String SELECTED_CAPTURE = "edu.sdsmt.project1.SELECTED_CAPTURE";
-    private static final String RECTANGLE_PARAMS = "edu.sdsmt.project1.rectangleparams";
-    private static final String CIRCLE_PARAMS = "edu.sdsmt.project1.circleparams";
-    private static final String LINE_PARAMS = "edu.sdsmt.project1.lineparams";
 
     private static final String COLLECTIBLE_PARAMS = "edu.sdsmt.project1.captureparams";
     // constructor
     // context used to pass to collectibles and captures
     public Game(Context context) {
-        dm = context.getResources().getDisplayMetrics();
         params = new Parameters();
         player1 = new Player();
         player2 = new Player();
@@ -285,15 +280,6 @@ public class Game {
          * Calculations
          */
 
-        /*float screenW = dm.widthPixels;
-        float screenH = dm.heightPixels;
-        float scaleW = screenW / backgroundBitmap.getWidth();
-        float scaleH = screenH / backgroundBitmap.getHeight();
-        imageScale = Math.min(scaleW,scaleH) * SCALE_IN_VIEW;
-        marginLeft = (screenW - (imageScale * backgroundBitmap.getWidth())) / 2.0f;
-        marginTop = (screenH - (imageScale * backgroundBitmap.getHeight()))/ 2.0f;
-        */
-
         float wid = canvas.getWidth();
         float hit = canvas.getHeight();
 
@@ -341,7 +327,7 @@ public class Game {
          * */
 
         if(selectedCapture != null){
-            selectedCapture.draw(canvas, marginLeft, marginTop, imageScale, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());
+            selectedCapture.draw(canvas, marginLeft, marginTop, imageScale);
         }
 
     }
