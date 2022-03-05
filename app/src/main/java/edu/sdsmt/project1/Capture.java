@@ -455,19 +455,4 @@ public class Capture {
             dY = y - lastY;
         }
     }
-
-    public void saveCaptureState(String key, Bundle bundle) {
-        bundle.putSerializable(key, params);
-    }
-
-    public void loadCaptureState(String key, Bundle bundle) {
-        params = (Parameters)bundle.getSerializable(key);
-        setX(params.x);
-        setY(params.y);
-        setScale(params.scale);
-        setScalable(params.scalable);
-        setAngle(params.angle);
-        setID(params.id);
-        setRect();
-    }
 }
