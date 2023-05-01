@@ -1,4 +1,4 @@
-# Multiplayer Android Game
+# Multiplayer Android Game (Part 1)
 CSC 476: Mobile Computing Development<br/>
 Spring 2022<br/>
 Authors: Minati Alphonso (View), Haakon Anderson (Model), Liam Bell (Controller)<br/>
